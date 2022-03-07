@@ -53,7 +53,6 @@ params.input_file = ""
 params.output_dir = ""
 params.data_type  = ""
 params.reference  = ""
-params.wrapper    = "${baseDir}/tests/scripts/main.py"
 params.output_pattern = "*"  // output file name pattern
 
 
@@ -66,8 +65,6 @@ process sigpross {
 
   input:  // input, make update as needed
     path input_file
-    path wrapper
-
 
   output:  // output, make update as needed
     path "${params.output_dir}/${params.output_pattern}", emit: output_file
@@ -76,7 +73,7 @@ process sigpross {
     // add and initialize variables here as needed
 
     """
-    main.py \
+    /scripts/main.py \
       -i ${input_file} \
       -o ${params.output_dir} \
       -t ${params.data_type} \
@@ -89,7 +86,6 @@ process sigpross {
 // using this command: nextflow run <git_acc>/<repo>/<pkg_name>/<main_script>.nf -r <pkg_name>.v<pkg_version> --params-file xxx
 workflow {
   sigpross(
-    file(params.input_file),
-    file(params.wrapper)
+    file(params.input_file)
   )
 }

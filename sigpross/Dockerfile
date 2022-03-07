@@ -20,4 +20,10 @@ RUN pip install  matplotlib==3.4.0 sigProSS
 ## install reference genome for matrix generation 
 RUN python3 -c "from SigProfilerMatrixGenerator import install as genInstall;genInstall.install('GRCh38')"
 
+RUN mkdir -p /scripts
+
+ENV PATH="/scripts:${PATH}"
+
+COPY main.py /scripts/
+
 CMD ['python3']

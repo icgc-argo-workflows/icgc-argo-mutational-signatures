@@ -68,7 +68,7 @@ def main():
     if lower(type) == 'exome':
         exome = True
 
-    ## custom sig database available as an option.`
+    ## custom sig database available as an option
     spss.single_sample(data, "results", ref=ref, exome=exome)
 
 
