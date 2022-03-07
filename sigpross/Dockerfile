@@ -18,8 +18,8 @@ RUN pip install  matplotlib==3.4.0 sigProSS
 
 RUN python3 -c "from SigProfilerMatrixGenerator import install as genInstall;genInstall.install('GRCh38')"
 
-ENTRYPOINT ["python3"]
 
-#	zlib1g-dev \
-#	libbz2-dev \
-#	liblzma-dev \
+COPY main.py /usr/local/bin
+RUN chmod +x /usr/local/bin/main.py
+
+CMD ['python3', "main.py"]

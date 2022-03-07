@@ -76,7 +76,7 @@ process sigpross {
     """
     mkdir -p output_dir
 
-    python3 ./main.py \
+    python3 main.py \
       -i ${input_file} \
       -o output_dir \
       -t ${params.data_type} \
