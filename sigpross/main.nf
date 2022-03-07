@@ -73,6 +73,8 @@ process sigpross {
     // add and initialize variables here as needed
 
     """
+    mkdir -p ${params.output_dir} 
+
     /scripts/main.py \
       -i ${input_file} \
       -o ${params.output_dir} \
