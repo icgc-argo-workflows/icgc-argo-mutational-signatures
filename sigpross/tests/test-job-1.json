@@ -4,7 +4,6 @@
     "publish_dir": "results",
     "cpus": 1,
     "mem":4 ,
-    "data_type": 'genome',
-    "reference": 'GrCh38'
-    
+    "data_type": "genome",
+    "reference": "GRCh38"
 }
