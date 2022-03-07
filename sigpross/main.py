@@ -58,18 +58,20 @@ def main():
         sys.exit('Error: specified output dir %s does not exist or is not accessible!' % args.output_dir)
 
     ## if input is a matrix of counts, it has to be a pandas df
-    data = pd.read_csv(input_file, sep ='\t')
+    data = pd.read_csv(args.input_file, sep ='\t')
 
     if data.index.name !='MutationType':
         data = data.set_index('MutationType')
 
     ## works with vcf as well but will take a path WIP
 
-    if lower(type) == 'exome':
+    if lower(args.type) == 'exome':
         exome = True
+    else:
+        exome = False
 
     ## custom sig database available as an option
-    spss.single_sample(data, "results", ref=ref, exome=exome)
+    spss.single_sample(data, "results", ref=args.ref, exome=exome)
 
 
 if __name__ == "__main__":
