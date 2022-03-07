@@ -76,7 +76,7 @@ process sigpross {
     // add and initialize variables here as needed
 
     """
-    ${params.wrapper} \
+    main.py \
       -i ${input_file} \
       -o ${params.output_dir} \
       -t ${params.data_type} \
