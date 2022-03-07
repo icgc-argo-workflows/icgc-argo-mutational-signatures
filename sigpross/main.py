@@ -65,7 +65,7 @@ def main():
 
     ## works with vcf as well but will take a path WIP
 
-    if lower(args.type) == 'exome':
+    if args.type.lower() == 'exome':
         exome = True
     else:
         exome = False
