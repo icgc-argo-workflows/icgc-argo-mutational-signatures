@@ -1,7 +1,7 @@
 {
     "input_file": "input/Synthetic.eso.mutation.counts-10-samples.tsv",
     "expected_output": "expected/Sig_activities.txt",
-    "wrapper": "${basedir}/../main.py",
+    "wrapper": "scripts/main.py",
     "publish_dir": "results",
     "cpus": 1,
     "mem":4 ,

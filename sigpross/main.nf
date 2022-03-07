@@ -53,7 +53,7 @@ params.input_file = ""
 params.output_dir = ""
 params.data_type  = ""
 params.reference  = ""
-params.wrapper    = "${baseDir}/main.py"
+params.wrapper    = "${baseDir}/tests/scripts/main.py"
 params.output_pattern = "*"  // output file name pattern
 
 
