@@ -50,7 +50,7 @@ params.container = ""
 // tool specific parmas go here, add / change as needed
 params.input_file = ""
 params.expected_output = ""
-
+params.wrapper = ""
 include { sigpross } from '../main'
 
 
@@ -79,15 +79,17 @@ process file_smart_diff {
 workflow checker {
   take:
     input_file
+    wrapper
     expected_output
 
   main:
     sigpross(
       input_file
+      wrapper
     )
 
     file_smart_diff(
-      sigpross.out.output_file,
+      sigpross.out.output_file
       expected_output
     )
 }
@@ -96,6 +98,7 @@ workflow checker {
 workflow {
   checker(
     file(params.input_file),
+    file(params.wrapper),
     file(params.expected_output)
   )
 }

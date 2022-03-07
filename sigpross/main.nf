@@ -66,6 +66,8 @@ process sigpross {
 
   input:  // input, make update as needed
     path input_file
+    path wrapper
+
 
   output:  // output, make update as needed
     path "${params.output_dir}/${params.output_pattern}", emit: output_file
@@ -87,6 +89,7 @@ process sigpross {
 // using this command: nextflow run <git_acc>/<repo>/<pkg_name>/<main_script>.nf -r <pkg_name>.v<pkg_version> --params-file xxx
 workflow {
   sigpross(
-    file(params.input_file)
+    file(params.input_file),
+    file(params.wrapper)
   )
 }

@@ -59,7 +59,7 @@ def main():
 
     ## if input is a matrix of counts, it has to be a pandas df
     data = pd.read_csv(input_file, sep ='\t')
-    
+
     if data.index.name !='MutationType':
         data = data.set_index('MutationType')
 
