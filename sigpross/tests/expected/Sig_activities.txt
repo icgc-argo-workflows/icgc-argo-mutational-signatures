@@ -1,0 +1,7 @@
+Samples	synthetic.1	synthetic.2	synthetic.3	synthetic.4	synthetic.5	synthetic.6	synthetic.7	synthetic.8	synthetic.9	synthetic.10
+Signature Subs-01	0	6092	3351	1723	2317	3110	0	0	0	0
+Signature Subs-02	0	0	0	0	0	0	0	0	0	4290
+Signature Subs-17a	0	0	4309	0	4418	0	0	23353	0	0
+Signature Subs-17b	55373	0	0	2783	5702	6604	14436	0	12192	6104
+Signature Subs-40	0	15414	8276	4666	12382	22725	37853	0	16998	28492
+Signature Subs-60	0	22194	0	0	0	0	0	0	0	0

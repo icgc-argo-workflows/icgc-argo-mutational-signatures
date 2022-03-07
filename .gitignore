@@ -72,3 +72,4 @@ wfpr_modules/github.com/*/*/*/tests
 # singularity images
 **/*.img
 **/*.sif
+sigpross/Dockerfile-bk

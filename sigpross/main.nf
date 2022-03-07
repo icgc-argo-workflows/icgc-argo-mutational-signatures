@@ -44,12 +44,15 @@ params.container_version = ""
 params.container = ""
 
 params.cpus = 1
-params.mem = 1  // GB
+params.mem = 4  // GB
 params.publish_dir = ""  // set to empty string will disable publishDir
 
 
 // tool specific parmas go here, add / change as needed
 params.input_file = ""
+params.output_dir = ""
+params.data_type  = ""
+params.reference  = ""
 params.output_pattern = "*"  // output file name pattern
 
 
@@ -62,6 +65,7 @@ process sigpross {
 
   input:  // input, make update as needed
     path input_file
+    
 
   output:  // output, make update as needed
     path "output_dir/${params.output_pattern}", emit: output_file
@@ -74,8 +78,9 @@ process sigpross {
 
     main.py \
       -i ${input_file} \
-      -o output_dir
-
+      -o output_dir \
+      -t ${params.data_type} \
+      -r ${params.reference} 
     """
 }
 
@@ -84,6 +89,10 @@ process sigpross {
 // using this command: nextflow run <git_acc>/<repo>/<pkg_name>/<main_script>.nf -r <pkg_name>.v<pkg_version> --params-file xxx
 workflow {
   sigpross(
-    file(params.input_file)
+    file(params.input_file),
+    params.output_dir,
+    params.data_type,
+    params.reference,
+    
   )
 }

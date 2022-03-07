@@ -1,7 +1,10 @@
 {
-    "input_file": "input/test_rg_3.bam",
-    "expected_output": "expected/expected.test_rg_3_fastqc.out.gz",
-    "publish_dir": "outdir",
+    "input_file": "input/Synthetic.eso.mutation.counts-10-samples.tsv",
+    "expected_output": "expected/Sig_activities.txt",
+    "publish_dir": "results",
     "cpus": 1,
-    "mem": 0.5
+    "mem":4 ,
+    "data_type": 'genome',
+    "reference": 'GrCh38'
+    
 }

@@ -30,13 +30,14 @@ import os
 import sys
 import argparse
 import subprocess
-
+import pandas as pd
+from sigproSS import spss
 
 def main():
     """
     Python implementation of tool: sigpross
+    Takes a counts matrix for attribution of mutations to reference COSMIC signatures 
 
-    This is auto-generated Python code, please update as needed!
     """
 
     parser = argparse.ArgumentParser(description='Tool: sigpross')
@@ -44,6 +45,10 @@ def main():
                         help='Input file', required=True)
     parser.add_argument('-o', '--output-dir', dest='output_dir', type=str,
                         help='Output directory', required=True)
+    parser.add_argument('-t', '--data-type', dest='type', type=str,
+                        help='genome or exome type', required=True)
+    parser.add_argument('-r', '--reference', dest='ref', type=str,
+                        help='reference genome', required =True)
     args = parser.parse_args()
 
     if not os.path.isfile(args.input_file):
@@ -52,7 +57,19 @@ def main():
     if not os.path.isdir(args.output_dir):
         sys.exit('Error: specified output dir %s does not exist or is not accessible!' % args.output_dir)
 
-    subprocess.run(f"fastqc -o {args.output_dir} {args.input_file}", shell=True, check=True)
+    ## if input is a matrix of counts, it has to be a pandas df
+    data = pd.read_csv(input_file, sep ='\t')
+    
+    if data.index.name !='MutationType':
+        data = data.set_index('MutationType')
+
+    ## works with vcf as well but will take a path WIP
+
+    if lower(type) == 'exome':
+        exome = True
+
+    ## custom sig database available as an option.`
+    spss.single_sample(data, "results", ref=ref, exome=exome)
 
 
 if __name__ == "__main__":

@@ -1,11 +1,25 @@
-FROM pegi3s/fastqc:0.11.9
+## use ubuntu minimal base image
+FROM ubuntu:focal
 
 LABEL org.opencontainers.image.source https://github.com/icgc-argo-workflows/icgc-argo-mutational-signatures
 
-ENV PATH="/tools:${PATH}"
+# install dependencies
+RUN apt-get clean && \
+	apt-get update -y && \
+	apt-get install --no-install-recommends -y \
+	python3-minimal \
+	git \
+	wget \
+	build-essential \
+	python3-pip \
+	procps
 
-COPY *.py /tools/
+RUN pip install  matplotlib==3.4.0 sigProSS
 
-ENTRYPOINT ["/usr/bin/env"]
+RUN python3 -c "from SigProfilerMatrixGenerator import install as genInstall;genInstall.install('GRCh38')"
 
-CMD ["/bin/bash"]
+ENTRYPOINT ["python3"]
+
+#	zlib1g-dev \
+#	libbz2-dev \
+#	liblzma-dev \
