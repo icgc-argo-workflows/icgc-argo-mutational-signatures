@@ -84,12 +84,12 @@ workflow checker {
 
   main:
     sigpross(
-      input_file
+      input_file,
       wrapper
     )
 
     file_smart_diff(
-      sigpross.out.output_file
+      sigpross.out.output_file,
       expected_output
     )
 }
