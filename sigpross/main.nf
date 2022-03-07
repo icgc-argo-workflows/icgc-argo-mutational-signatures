@@ -53,6 +53,7 @@ params.input_file = ""
 params.output_dir = ""
 params.data_type  = ""
 params.reference  = ""
+params.wrapper    = "main.py"
 params.output_pattern = "*"  // output file name pattern
 
 
@@ -65,7 +66,6 @@ process sigpross {
 
   input:  // input, make update as needed
     path input_file
-    
 
   output:  // output, make update as needed
     path "output_dir/${params.output_pattern}", emit: output_file
@@ -76,7 +76,7 @@ process sigpross {
     """
     mkdir -p output_dir
 
-    /usr/local/bin/main.py \
+    ${params.wrapper} \
       -i ${input_file} \
       -o output_dir \
       -t ${params.data_type} \

@@ -14,12 +14,10 @@ RUN apt-get clean && \
 	python3-pip \
 	procps
 
+## insgall sigpross and matplotlib 
 RUN pip install  matplotlib==3.4.0 sigProSS
 
+## install reference genome for matrix generation 
 RUN python3 -c "from SigProfilerMatrixGenerator import install as genInstall;genInstall.install('GRCh38')"
 
-
-COPY main.py /usr/local/bin
-RUN chmod +x /usr/local/bin/main.py
-
-CMD ['python3', "main.py"]
+CMD ['python3']
