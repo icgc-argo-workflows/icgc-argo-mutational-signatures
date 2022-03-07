@@ -67,7 +67,7 @@ process sigpross {
     path input_file
 
   output:  // output, make update as needed
-    path "${params.output_dir}/${params.output_pattern}", emit: output_file
+    path "${params.output_dir}/results/Sig_activities.txt", emit: output_file
 
   script:
     // add and initialize variables here as needed
