@@ -71,7 +71,7 @@ def main():
         exome = False
 
     ## custom sig database available as an option
-    spss.single_sample(data, "results", ref=args.ref, exome=exome)
+    spss.single_sample(data, args.output_dir + "/results", ref=args.ref, exome=exome)
 
 
 if __name__ == "__main__":
