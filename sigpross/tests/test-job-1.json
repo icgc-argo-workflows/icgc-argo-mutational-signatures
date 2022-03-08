@@ -1,6 +1,6 @@
 {
     "input_file": "input/Synthetic.eso.mutation.counts-10-samples.tsv",
-    "expected_output": "expected/Sig_activities.txt",
+    "expected_output": "expected/expected_sig_activities.txt",
     "publish_dir": "results",
     "cpus": 1,
     "mem":4 ,
