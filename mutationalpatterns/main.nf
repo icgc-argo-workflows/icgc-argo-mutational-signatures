@@ -44,12 +44,14 @@ params.container_version = ""
 params.container = ""
 
 params.cpus = 1
-params.mem = 1  // GB
+params.mem = 4  // GB
 params.publish_dir = ""  // set to empty string will disable publishDir
 
 
 // tool specific parmas go here, add / change as needed
 params.input_file = ""
+params.output_dir = ""
+params.reference = ""
 params.output_pattern = "*"  // output file name pattern
 
 
@@ -64,17 +66,17 @@ process mutationalpatterns {
     path input_file
 
   output:  // output, make update as needed
-    path "output_dir/${params.output_pattern}", emit: output_file
+    path "${params.output_dir}/Signatures_de_novo_pipe.txt", emit: output_file
 
   script:
     // add and initialize variables here as needed
 
     """
-    mkdir -p output_dir
+     
+    mkdir -p ${params.output_dir}
+    
+    Rscript --vanilla /scripts/MutationalPatterns.R --input_file ${input_file} --output_dir ${params.output_dir} --reference ${params.reference}
 
-    main.py \
-      -i ${input_file} \
-      -o output_dir
 
     """
 }
