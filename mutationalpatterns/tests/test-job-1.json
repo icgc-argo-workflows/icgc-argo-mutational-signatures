@@ -1,6 +1,6 @@
 {
     "input_file": "input/Synthetic.eso.mutation.counts-10-samples.tsv",
-    "expected_output": "expected/Signatures_de_novo.txt",
+    "expected_output": "expected/Signatures_contribution.txt",
     "output_dir": "outdir_dir",
     "cpus": 1,
     "mem": 4,

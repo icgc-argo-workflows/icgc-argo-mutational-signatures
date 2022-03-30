@@ -37,14 +37,6 @@ GENOME <- opt$reference
 mut_mat_ICGC <- read.table(INPUT_MAT, row.names = 1, header=TRUE)
 cosmic_signatures <- get_known_signatures(genome = GENOME)
 
-# De novo signatures
-nmf_res <- extract_signatures(mut_mat_ICGC, rank = 6)
-
-# Error with the cutoff variable. It needs to be high for very similar signature profiles
-nmf_res <- rename_nmf_signatures(nmf_res, cosmic_signatures, cutoff = 0.95)
-# Save nmf results
-fwrite(as.data.table(nmf_res$signatures, keep.rownames = "Type"), paste0(DIR_RES, "/Signatures_de_novo_pipe.txt") )
-
 ## Signature fitting
 # Change to numerical if not
 fit_res <- fit_to_signatures(mut_mat_ICGC,
