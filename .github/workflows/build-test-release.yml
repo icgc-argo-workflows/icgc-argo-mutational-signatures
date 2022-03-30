@@ -109,13 +109,13 @@ jobs:
     - name: Run tests for all packages
       if: ${{ needs.build.outputs.branch == 'main' }}
       run: |
-        wfpm test
+        sudo wfpm test
 
     - name: Run tests for the current package only
       if: ${{ needs.build.outputs.branch != 'main' }}
       run: |
         cd ./${{needs.build.outputs.pkg_name}}
-        wfpm test
+        sudo wfpm test
 
     - name: Check whether to proceed with release
       id: to_release
