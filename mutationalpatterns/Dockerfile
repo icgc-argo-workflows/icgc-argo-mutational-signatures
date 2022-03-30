@@ -42,5 +42,8 @@ RUN mkdir -p /scripts
 ENV PATH="/scripts:${PATH}"
 
 COPY MutationalPatterns.R /scripts/
- 
+
+## Permissions for files
+RUN chmod +x /scripts/MutationalPatterns.R
+
 CMD ["R"]
