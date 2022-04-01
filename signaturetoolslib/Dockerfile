@@ -43,4 +43,4 @@ ENV PATH="/scripts:${PATH}"
 
 COPY SignatureToolsLib.R /scripts/
  
-CMD ["R"]
+ENTRYPOINT ["R"]
