@@ -1,0 +1,37 @@
+{
+    "name": "signaturetoolslib",
+    "version": "0.1.0",
+    "description": "Mutational signature tool",
+    "main": "main.nf",
+    "deprecated": false,
+    "keywords": [
+        "bioinformatics",
+        "seq",
+        "qc metrics"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/icgc-argo-workflows/icgc-argo-mutational-signatures.git"
+    },
+    "container": {
+        "registries": [
+            {
+                "registry": "ghcr.io",
+                "type": "docker",
+                "org": "icgc-argo-workflows",
+                "default": true
+            }
+        ]
+    },
+    "dependencies": [],
+    "devDependencies": [],
+    "contributors": [
+        {
+            "name": "PaulaStancl",
+            "email": "paula.stancl@gmail.com"
+        }
+    ],
+    "license": "MIT",
+    "bugReport": "https://github.com/icgc-argo-workflows/icgc-argo-mutational-signatures/issues",
+    "homepage": "https://github.com/icgc-argo-workflows/icgc-argo-mutational-signatures#readme"
+}
