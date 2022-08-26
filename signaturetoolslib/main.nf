@@ -51,8 +51,6 @@ params.publish_dir = ""  // set to empty string will disable publishDir
 // tool specific parmas go here, add / change as needed
 params.input_file = ""
 params.output_dir = ""
-params.tissue = ""
-
 
 process signaturetoolslib {
   container "${params.container ?: container[params.container_registry ?: default_container_registry]}:${params.container_version ?: version}"
@@ -65,7 +63,7 @@ process signaturetoolslib {
     path input_file
 
   output:  // output, make update as needed
-    path "${params.output_dir}/SigFit_withBootstrap_Exposures_mKLD_bfmCosSim_alpha-1_tr5_p0.05.tsv", emit: output_file
+    path "${params.output_dir}/export_signatures.json", emit: output_file
 
   script:
     // add and initialize variables here as needed
@@ -73,7 +71,7 @@ process signaturetoolslib {
     """
     mkdir -p ${params.output_dir}
     
-    Rscript --vanilla /scripts/SignatureToolsLib.R --input_file ${input_file} --output_dir ${params.output_dir} --tissue ${params.tissue}
+    Rscript --vanilla /scripts/SignatureToolsLib.R --input_file ${input_file} --output_dir ${params.output_dir}
 
     """
 }

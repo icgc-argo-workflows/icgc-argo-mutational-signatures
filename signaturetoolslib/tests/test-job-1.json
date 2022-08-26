@@ -1,8 +1,7 @@
 {
     "input_file": "input/Synthetic.eso.mutation.counts-10-samples.tsv",
-    "expected_output": "expected/SigFit_withBootstrap_expected.tsv",
+    "expected_output": "expected/test_signatures.json",
     "output_dir": "outdir_dir",
-    "tissue": "none",
     "cpus": 2,
-    "mem": 4
+    "mem": 6
 }

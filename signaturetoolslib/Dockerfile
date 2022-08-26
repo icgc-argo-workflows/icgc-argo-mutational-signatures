@@ -21,7 +21,6 @@ RUN wget https://cdn.rstudio.com/r/${OS_IDENTIFIER}/pkgs/R-${R_VERSION}-1-1.x86_
 
  
 RUN R -e "install.packages("remotes", dependencies=TRUE,repos='http://cran.rstudio.com/')"
-RUN R -e "install.packages("magrittr", dependencies=TRUE,repos='http://cran.rstudio.com/')"
 
 
 ## Installing packages from Bioconductor
@@ -32,9 +31,10 @@ RUN apt-get update
            
 ## Install R packages
 
-RUN R -e "install.packages('data.table',dependencies=TRUE,repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('optparse',dependencies=TRUE,repos='http://cran.rstudio.com/')"
-RUN R -e "options(timeout = 1000); remotes::install_github('Nik-Zainal-Group/signature.tools.lib'); library('signature.tools.lib')"
+RUN R -e "BiocManager::install('VariantAnnotation'); BiocManager::install('BSgenome.Hsapiens.UCSC.hg38')"
+RUN R -e "BiocManager::install('BSgenome.Cfamiliaris.UCSC.canFam3')"
+RUN R -e "options(timeout = 5000); remotes::install_github('Nik-Zainal-Group/signature.tools.lib'); library('signature.tools.lib')"
 
 ## Add main wrapper
 RUN mkdir -p /scripts
