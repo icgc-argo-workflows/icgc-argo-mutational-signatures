@@ -1,10 +1,14 @@
-FROM pegi3s/fastqc:0.11.9
+FROM python:3
 
-LABEL org.opencontainers.image.source https://github.com/icgc-argo-workflows/icgc-argo-mutational-signatures
+LABEL org.opencontainers.image.source https://github.com/icgc-argo-workflows/icgc-argo-mutational-signatures-mgen
+
+### install python packages
+
+RUN pip install SigProfilerMatrixGenerator
 
 ENV PATH="/tools:${PATH}"
 
-COPY *.py /tools/
+COPY ICGC_convert_matGen_parser.py /tools/
 
 ENTRYPOINT ["/usr/bin/env"]
 
