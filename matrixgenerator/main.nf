@@ -50,7 +50,7 @@ params.publish_dir = ""  // set to empty string will disable publishDir
 
 // tool specific parmas go here, add / change as needed
 params.input_file = ""
-params.output_pattern = ""  // output file name pattern
+params.output_pattern = "tmp"  // output file name pattern
 
 
 process matrixgenerator {
