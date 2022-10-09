@@ -10,6 +10,6 @@ ENV PATH="/tools:${PATH}"
 
 COPY ICGC_convert_matGen_parser.py /tools/
 
-ENTRYPOINT ["/usr/bin/env"]
+ENTRYPOINT ["python"]
 
 CMD ["/bin/bash"]
