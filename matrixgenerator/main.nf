@@ -72,7 +72,7 @@ process matrixgenerator {
     """
     mkdir -p output_dir
 
-    python ICGC_convert_matGen_parser.py \
+    python /tools/ICGC_convert_matGen_parser.py \
       --input_path ${input_file} \
       --output_file ${params.output_pattern} \
       --reference_genome GRCh38
