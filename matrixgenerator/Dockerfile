@@ -6,6 +6,7 @@ LABEL org.opencontainers.image.source https://github.com/icgc-argo-workflows/icg
 
 RUN pip install SigProfilerMatrixGenerator
 COPY refinstall.py .
+COPY ICGC_convert_matGen_parser.py .
 CMD ["python" ,"./refinstall.py"]
 ENV PATH="/tools:${PATH}"
 
