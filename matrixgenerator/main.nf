@@ -50,7 +50,7 @@ params.publish_dir = ""  // set to empty string will disable publishDir
 
 // tool specific parmas go here, add / change as needed
 params.input_file = ""
-params.output_pattern = "*"  // output file name pattern
+params.output_pattern = ""  // output file name pattern
 
 
 process matrixgenerator {
@@ -74,7 +74,7 @@ process matrixgenerator {
 
     ICGC_convert_matGen_parser.py \
       --input_path ${input_file} \
-      --output_file output_dir \
+      --output_file ${params.output_pattern} \
       --reference_genome GRCh38
     """
 }
