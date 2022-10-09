@@ -10,7 +10,7 @@ COPY ICGC_convert_matGen_parser.py .
 CMD ["python" ,"./refinstall.py"]
 ENV PATH="/tools:${PATH}"
 
-COPY *.py /tools/
+COPY ICGC_convert_matGen_parser.py . /tools/
 
 ENTRYPOINT ["python"]
 
