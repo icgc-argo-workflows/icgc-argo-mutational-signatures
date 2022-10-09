@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3.9
 
 LABEL org.opencontainers.image.source https://github.com/icgc-argo-workflows/icgc-argo-mutational-signatures-mgen
 

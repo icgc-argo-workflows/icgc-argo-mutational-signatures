@@ -72,10 +72,10 @@ process matrixgenerator {
     """
     mkdir -p output_dir
 
-    main.py \
-      -i ${input_file} \
-      -o output_dir
-
+    ICGC_convert_matGen_parser.py \
+      ${input_file} \
+      ${output_dir} \
+      GRCh38
     """
 }
 
