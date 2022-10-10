@@ -57,7 +57,7 @@ if os.path.exists('./maf/') == False:
 else:
     print('Output folder already exists... continue...')
     
-maf_out_raw.to_csv('./maf/' + args.o + '.maf', index = False, sep="\t")
+maf_out_raw.to_csv( './maf/' + args.o + '.maf', index = False, sep="\t")
 
 '''Generate the trinucleotide matrix using SigProfilerMatrixGenrator'''
 

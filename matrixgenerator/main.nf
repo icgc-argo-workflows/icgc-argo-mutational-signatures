@@ -64,7 +64,7 @@ process matrixgenerator {
     path input_file
 
   output:  // output, make update as needed
-    path "output_dir/${params.output_pattern}", emit: output_file
+    path "Trinucleotide_matrix_${params.output_pattern}.txt", emit: output_file
 
   script:
     // add and initialize variables here as needed
