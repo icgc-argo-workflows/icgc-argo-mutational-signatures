@@ -1,6 +1,6 @@
 {
     "input_file": "input/snv_mnv_indel.icgc.testset.maf",
-    "expected_output": "expected/Trinucleotide_matrix_tmp.txt",
+    "expected_output": "expected/expected.txt",
     "publish_dir": "outdir",
     "cpus": 1,
     "mem": 1
