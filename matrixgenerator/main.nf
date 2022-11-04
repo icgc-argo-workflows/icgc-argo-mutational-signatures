@@ -50,7 +50,7 @@ params.publish_dir = ""  // set to empty string will disable publishDir
 
 // tool specific parmas go here, add / change as needed
 params.input_file = ""
-params.output_pattern = "*"  // output file name pattern
+params.output_pattern = "tmp"  // output file name pattern
 
 
 process matrixgenerator {
@@ -64,7 +64,7 @@ process matrixgenerator {
     path input_file
 
   output:  // output, make update as needed
-    path "output_dir/${params.output_pattern}", emit: output_file
+    path "Trinucleotide_matrix_${params.output_pattern}.txt", emit: output_file
 
   script:
     // add and initialize variables here as needed
@@ -72,10 +72,10 @@ process matrixgenerator {
     """
     mkdir -p output_dir
 
-    main.py \
-      -i ${input_file} \
-      -o output_dir
-
+    python /tools/ICGC_convert_matGen_parser.py \
+       ${input_file} \
+       ${params.output_pattern} \
+       GRCh38
     """
 }
 
