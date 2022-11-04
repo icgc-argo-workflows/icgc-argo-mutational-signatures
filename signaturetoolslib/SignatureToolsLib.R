@@ -20,7 +20,7 @@ if (is.null(opt$input_file) | is.null(opt$output_dir) ){
 }
 
 ## Set seed 
-set.seed(42)
+set.seed(164)
 
 ## Input variables
 DIR_RES <- opt$output_dir
