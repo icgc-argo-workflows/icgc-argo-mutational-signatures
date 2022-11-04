@@ -1,12 +1,8 @@
 #!/usr/bin/Rscript
 
-# Library
 library(signature.tools.lib)
 library("optparse")
 
-#####INPUT
-
-###
 option_list = list(
   make_option(c("-i", "--input_file"), type="character", default=NULL,
               help="Matrix of counts", metavar="character"),
@@ -23,38 +19,36 @@ if (is.null(opt$input_file) | is.null(opt$output_dir) ){
   stop("Missing some input arguments... Exiting...", call.=FALSE)
 }
 
-### Set seed 
-set.seed(164)
+## Set seed 
+set.seed(42)
 
-##### Input variables
+## Input variables
 DIR_RES <- opt$output_dir
 INPUT_MAT <- opt$input_file
 
-# Import variables
+## Import matrix of counts
 mut_mat_ICGC <- read.table(INPUT_MAT, row.names = 1, header=TRUE)
 
-## Function for extracting signatures
-extractSignatures <- function(input_matrix, sig_matrix) {
+## Function for signature attribution
+assignSignatures <- function(input_matrix, sig_matrix) {
   
+## use Fit function, FitMS is still undergoing testing 
   subs_fit_res <- signature.tools.lib::Fit(catalogues = input_matrix,
                                            exposureFilterType = "giniScaledThreshold",
                                            signatures = sig_matrix,
                                            useBootstrap = TRUE,
                                            nboot = 100,
                                            nparallel = 6 )
-  # Save 
-  #snv_exp <- subs_fit_res$E_median_filtered
-  # Return
   return(subs_fit_res)
 }
 
-
-# Extract the signatures
-sign_res <- extractSignatures(mut_mat_ICGC, COSMIC30_subs_signatures)
+## Assign the signatures
+## Currently testing with COSMIC 30 signatures (To update)
+sign_res <- assignSignatures(mut_mat_ICGC, COSMIC30_subs_signatures)
 
 ### Save output as JSON
 fitToJSON(sign_res,
-          paste0(DIR_RES, "/export_signatures.json") )
+          paste0(DIR_RES, "/export_assignments.json") )
 
 
                        
