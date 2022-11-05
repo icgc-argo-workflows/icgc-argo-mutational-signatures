@@ -19,7 +19,7 @@ if (is.null(opt$input_file) | is.null(opt$output_dir) ){
   stop("Missing some input arguments... Exiting...", call.=FALSE)
 }
 
-## Set seed 
+## Set seed used to match expected output
 set.seed(164)
 
 ## Input variables
