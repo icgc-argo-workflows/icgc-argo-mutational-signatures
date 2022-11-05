@@ -63,7 +63,7 @@ process signaturetoolslib {
     path input_file
 
   output:  // output, make update as needed
-    path "${params.output_dir}/export_signatures.json", emit: output_file
+    path "${params.output_dir}/export_assignments.json", emit: output_file
 
   script:
     // add and initialize variables here as needed
