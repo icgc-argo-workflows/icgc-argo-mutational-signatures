@@ -47,7 +47,7 @@ assignSignatures <- function(input_matrix, sig_matrix) {
 sign_res <- assignSignatures(mut_mat_ICGC, COSMIC30_subs_signatures)
 
 ### Save output as JSON
-fitToJSON(sign_res,
+signature.tools.lib::fitToJSON(sign_res,
           paste0(DIR_RES, "/export_assignments.json") )
 
 
