@@ -22,65 +22,81 @@
   SOFTWARE.
 
   Authors:
-    PaulaStancl
+    [Lancelot Seillier]
+*/
+
+/*
+ This is an auto-generated checker workflow to test the generated main template workflow, it's
+ meant to illustrate how testing works. Please update to suit your own needs.
 */
 
 /********************************************************************/
 /* this block is auto-generated based on info from pkg.json where   */
 /* changes can be made if needed, do NOT modify this block manually */
 nextflow.enable.dsl = 2
-version = '0.1.1'
+version = '0.1.0'  // package version
 
 container = [
-    'ghcr.io': 'ghcr.io/icgc-argo-workflows/icgc-argo-mutational-signatures.signaturetoolslib'
+    'ghcr.io': 'ghcr.io/icgc-argo-workflows/icgc-argo-mutational-signatures.matrixgenerator'
 ]
 default_container_registry = 'ghcr.io'
 /********************************************************************/
 
-
-// universal params go here
+// universal params
 params.container_registry = ""
 params.container_version = ""
 params.container = ""
 
-params.cpus = 1
-params.mem = 1  // GB
-params.publish_dir = ""  // set to empty string will disable publishDir
-
-
 // tool specific parmas go here, add / change as needed
 params.input_file = ""
-params.output_dir = ""
+params.expected_output = ""
 
-process signaturetoolslib {
+include { matrixgenerator } from '../main'
+
+
+process file_smart_diff {
   container "${params.container ?: container[params.container_registry ?: default_container_registry]}:${params.container_version ?: version}"
-  publishDir "${params.publish_dir}/${task.process.replaceAll(':', '_')}", mode: "copy", enabled: params.publish_dir
 
-  cpus params.cpus
-  memory "${params.mem} GB"
+  input:
+    path output_file
+    path expected_file
 
-  input:  // input, make update as needed
-    path input_file
-
-  output:  // output, make update as needed
-    path "${params.output_dir}/export_assignments.json", emit: output_file
+  output:
+    stdout()
 
   script:
-    // add and initialize variables here as needed
-
     """
-    mkdir -p ${params.output_dir}
-    
-    Rscript --vanilla /scripts/SignatureToolsLib.R --input_file ${input_file} --output_dir ${params.output_dir}
-
+    # Note: this is only for demo purpose, please write your own 'diff' according to your own needs.
+    # in this example, we need to remove date field before comparison eg, <div id="header_filename">Tue 19 Jan 2021<br/>test_rg_3.bam</div>
+    # sed -e 's#"header_filename">.*<br/>test_rg_3.bam#"header_filename"><br/>test_rg_3.bam</div>#'
+    echo ${output_file}
+    echo ${expected_file}
+    diff ${output_file} ${expected_file} \
+      && ( echo "Test PASSED" && exit 0 ) || ( echo "Test FAILED, output file mismatch." && exit 1 )
     """
 }
 
 
-// this provides an entry point for this main script, so it can be run directly without clone the repo
-// using this command: nextflow run <git_acc>/<repo>/<pkg_name>/<main_script>.nf -r <pkg_name>.v<pkg_version> --params-file xxx
+workflow checker {
+  take:
+    input_file
+    expected_output
+
+  main:
+    matrixgenerator(
+      input_file
+    )
+
+    file_smart_diff(
+      matrixgenerator.out.output_file,
+      expected_output
+    )
+}
+
+
 workflow {
-  signaturetoolslib(
-    file(params.input_file)
+  checker(
+    file(params.input_file),
+    file(params.expected_output)
   )
 }

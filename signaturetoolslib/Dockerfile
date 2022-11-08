@@ -20,7 +20,7 @@ RUN wget https://cdn.rstudio.com/r/${OS_IDENTIFIER}/pkgs/R-${R_VERSION}-1-1.x86_
  yum clean all
 
  
-RUN R -e "install.packages("remotes", dependencies=TRUE,repos='http://cran.rstudio.com/')"
+RUN R -e "install.packages('remotes', dependencies=TRUE,repos='http://cran.rstudio.com/')"
 
 
 ## Installing packages from Bioconductor

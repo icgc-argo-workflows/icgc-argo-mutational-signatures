@@ -22,17 +22,17 @@
   SOFTWARE.
 
   Authors:
-    PaulaStancl
+    [Lancelot Seillier]
 */
 
 /********************************************************************/
 /* this block is auto-generated based on info from pkg.json where   */
 /* changes can be made if needed, do NOT modify this block manually */
 nextflow.enable.dsl = 2
-version = '0.1.1'
+version = '0.1.0'  // package version
 
 container = [
-    'ghcr.io': 'ghcr.io/icgc-argo-workflows/icgc-argo-mutational-signatures.signaturetoolslib'
+    'ghcr.io': 'ghcr.io/icgc-argo-workflows/icgc-argo-mutational-signatures.matrixgenerator'
 ]
 default_container_registry = 'ghcr.io'
 /********************************************************************/
@@ -50,9 +50,10 @@ params.publish_dir = ""  // set to empty string will disable publishDir
 
 // tool specific parmas go here, add / change as needed
 params.input_file = ""
-params.output_dir = ""
+params.output_pattern = "tmp"  // output file name pattern
 
-process signaturetoolslib {
+
+process matrixgenerator {
   container "${params.container ?: container[params.container_registry ?: default_container_registry]}:${params.container_version ?: version}"
   publishDir "${params.publish_dir}/${task.process.replaceAll(':', '_')}", mode: "copy", enabled: params.publish_dir
 
@@ -63,16 +64,18 @@ process signaturetoolslib {
     path input_file
 
   output:  // output, make update as needed
-    path "${params.output_dir}/export_assignments.json", emit: output_file
+    path "Trinucleotide_matrix_${params.output_pattern}.txt", emit: output_file
 
   script:
     // add and initialize variables here as needed
 
     """
-    mkdir -p ${params.output_dir}
-    
-    Rscript --vanilla /scripts/SignatureToolsLib.R --input_file ${input_file} --output_dir ${params.output_dir}
+    mkdir -p output_dir
 
+    python /tools/ICGC_convert_matGen_parser.py \
+       ${input_file} \
+       ${params.output_pattern} \
+       GRCh38
     """
 }
 
@@ -80,7 +83,7 @@ process signaturetoolslib {
 // this provides an entry point for this main script, so it can be run directly without clone the repo
 // using this command: nextflow run <git_acc>/<repo>/<pkg_name>/<main_script>.nf -r <pkg_name>.v<pkg_version> --params-file xxx
 workflow {
-  signaturetoolslib(
+  matrixgenerator(
     file(params.input_file)
   )
 }
