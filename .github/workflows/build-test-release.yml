@@ -95,6 +95,7 @@ jobs:
 
     - name: Install Nextflow
       run: |
+	NXF_VER=21.10.6
         wget --tries=10 -qO- https://get.nextflow.io | bash
         sudo chmod 755 nextflow
         sudo mv nextflow /usr/local/bin/
