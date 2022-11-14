@@ -1,5 +1,5 @@
 {
-	"fitAlgorithm": Fit,
+	"fitAlgorithm": "Fit",
 	"nsamples": 10,
 	"nsignatures": 30,
 	"nchannels": 96,
