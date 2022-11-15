@@ -1,0 +1,29 @@
+{
+    "name": "icgc-mutational-signature-workflow",
+    "version": "0.1.0",
+    "description": "ICGC mutational signature workflow",
+    "main": "main.nf",
+    "deprecated": false,
+    "keywords": [
+        "mutational signatures",
+        "triplett count matrix generator"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/icgc-argo-workflows/icgc-argo-mutational-signatures.git"
+    },
+    "dependencies": [
+        "github.com/icgc-argo-workflows/icgc-argo-mutational-signatures/signaturetoolslib@0.1.1",
+        "github.com/icgc-argo-workflows/icgc-argo-mutational-signatures/matrixgenerator@0.1.0"
+    ],
+    "devDependencies": [],
+    "contributors": [
+        {
+            "name": "[Lancelot Seillier]",
+            "email": "lseillier@ukaachen.de"
+        }
+    ],
+    "license": "MIT",
+    "bugReport": "https://github.com/icgc-argo-workflows/icgc-argo-mutational-signatures/issues",
+    "homepage": "https://github.com/icgc-argo-workflows/icgc-argo-mutational-signatures#readme"
+}
