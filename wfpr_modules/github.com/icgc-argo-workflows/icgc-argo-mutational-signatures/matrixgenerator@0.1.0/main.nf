@@ -68,14 +68,9 @@ process matrixgenerator {
 
   script:
     // add and initialize variables here as needed
-
     """
     mkdir -p output_dir
-
-    python /tools/ICGC_convert_matGen_parser.py \
-       ${input_file} \
-       ${params.output_pattern} \
-       GRCh38
+    python /tools/ICGC_convert_matGen_parser.py ${input_file} ${params.output_pattern} GRCh38
     """
 }
 

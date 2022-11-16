@@ -1,8 +1,7 @@
 {
-    "input_file": "input/test_rg_3.bam",
-    "expected_output": "expected/expected.test_rg_3.bam",
-    "publish_dir": "outdir",
-    "container_registry": "ghcr.io",
-    "cpus": 1,
-    "mem": 0.5
+    "input_file": "input/Synthetic.eso.mutation.counts-10-samples.tsv",
+    "expected_output": "expected/test_assignments.json",
+    "output_dir": "outdir_dir",
+    "cpus": 2,
+    "mem": 6
 }

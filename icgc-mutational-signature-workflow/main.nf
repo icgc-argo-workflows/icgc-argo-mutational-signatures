@@ -1,46 +1,45 @@
 #!/usr/bin/env nextflow
 
-/*
-  Copyright (c) 2021, ICGC ARGO
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files (the "Software"), to deal
-  in the Software without restriction, including without limitation the rights
-  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  copies of the Software, and to permit persons to whom the Software is
-  furnished to do so, subject to the following conditions:
-
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-  SOFTWARE.
-
-  Authors:
-    [Lancelot Seillier]
-*/
-
 nextflow.enable.dsl = 2
+name = 'icgc-mutational-signature-workflow'
 version = '0.1.0'  // package version
 
-// universal params go here, change default value as needed
+/*
+==================================================================================
+                   ICGC-ARGO MUTATIONAL SIGNATURE WORKFLOW
+==================================================================================
+#### Documentation goes here
+
+#### Authors
+Paula Stancl @ <e-mail-adresse>
+Lancelot Seillier @biolancer <lseillier@ukaachen.de>
+
+----------------------------------------------------------------------------------
+
+Required Parameters:
+--input_file: Absolute Path to a MAF file following ICGC convention
+
+General Parameters:
+--cpus: Cores assigned to the workflow [default: 1]
+--mem: Memory assigned to the workflow [default: 8 GB]
+
+----------------------------------------------------------------------------------
+*/
+
+// Define General Parameters
 params.container = ""
 params.container_registry = ""
 params.container_version = ""
 params.cpus = 1
-params.mem = 1  // GB
+params.mem = 8  // GB
 params.publish_dir = ""  // set to empty string will disable publishDir
 
-// tool specific parmas go here, add / change as needed
+// tool specific parmas go here, add / change as needed ### TODO
 params.input_file = ""
 params.cleanup = true
 
-include { demoCopyFile } from "./local_modules/demo-copy-file"
+
+// include packages used in the worklfow - adapt to new versions as needed
 include { signaturetoolslib } from './wfpr_modules/github.com/icgc-argo-workflows/icgc-argo-mutational-signatures/signaturetoolslib@0.1.1/main.nf' params([*:params, 'cleanup': false])
 include { matrixgenerator } from './wfpr_modules/github.com/icgc-argo-workflows/icgc-argo-mutational-signatures/matrixgenerator@0.1.0/main.nf' params([*:params, 'cleanup': false])
 
@@ -52,19 +51,20 @@ workflow IcgcMutationalSignatureWorkflow {
 
 
   main:  // update as needed
-    demoCopyFile(input_file)
+    matrixgenerator(params.input_file)
+    signaturetoolslib(matrixgenerator.out.output_file)
 
 
   emit:  // update as needed
-    output_file = demoCopyFile.out.output_file
+    output_file = signaturetoolslib.out.output_file
 
 }
 
 
 // this provides an entry point for this main script, so it can be run directly without clone the repo
-// using this command: nextflow run <git_acc>/<repo>/<pkg_name>/<main_script>.nf -r <pkg_name>.v<pkg_version> --params-file xxx
+
 workflow {
   IcgcMutationalSignatureWorkflow(
-    file(params.input_file)
+    params.input_file
   )
 }
