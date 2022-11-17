@@ -1,6 +1,6 @@
 {
-    "input_file": "/input/Synthetic.eso.mutation.counts-10-samples.tsv",
-    "expected_output": "/expected/test_assignments.json",
+    "input_file": "/home/oem/Programs/clean_icgc/icgc-argo-mutational-signatures/icgc-mutational-signature-workflow/tests/input/Synthetic.eso.mutation.counts-10-samples.tsv",
+    "expected_output": "/home/oem/Programs/clean_icgc/icgc-argo-mutational-signatures/icgc-mutational-signature-workflow/tests/expected/test_assignments.json",
     "output_dir": "outdir_dir",
     "cpus": 2,
     "mem": 6

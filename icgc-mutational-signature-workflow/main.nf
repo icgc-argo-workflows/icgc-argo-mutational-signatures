@@ -20,7 +20,7 @@ Required Parameters:
 --input_file: Absolute Path to a MAF file following ICGC convention
 
 General Parameters:
---cpus: Cores assigned to the workflow [default: 1]
+--cpus: Cores assigned to the workflow [default: 2]
 --mem: Memory assigned to the workflow [default: 8 GB]
 
 ----------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ General Parameters:
 params.container = ""
 params.container_registry = ""
 params.container_version = ""
-params.cpus = 1
+params.cpus = 2
 params.mem = 8  // GB
 params.publish_dir = ""  // set to empty string will disable publishDir
 

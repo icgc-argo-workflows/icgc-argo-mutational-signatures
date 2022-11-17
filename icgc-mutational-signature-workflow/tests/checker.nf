@@ -25,11 +25,6 @@
     [Lancelot Seillier]
 */
 
-/*
- This is an auto-generated checker workflow to test the generated main template workflow, it's
- meant to illustrate how testing works. Please update to suit your own needs.
-*/
-
 nextflow.enable.dsl = 2
 version = '0.1.0'  // package version
 
@@ -38,6 +33,8 @@ params.publish_dir = ""
 params.container = ""
 params.container_registry = ""
 params.container_version = ""
+params.cpus = ""
+params.mem = ""
 
 // tool specific parmas go here, add / change as needed
 params.input_file = ""
@@ -45,8 +42,6 @@ params.expected_output = ""
 params.cleanup = false
 
 include { IcgcMutationalSignatureWorkflow } from '../main'
-// include section starts
-// include section ends
 
 
 process file_smart_diff {
@@ -63,13 +58,13 @@ process file_smart_diff {
     # in this example, we need to remove date field before comparison eg, <div id="header_filename">Tue 19 Jan 2021<br/>test_rg_3.bam</div>
     # sed -e 's#"header_filename">.*<br/>test_rg_3.bam#"header_filename"><br/>test_rg_3.bam</div>#'
 
-    cat ${output_file[0]} \
-      | sed -e 's#"header_filename">.*<br/>#"header_filename"><br/>#' > normalized_output
+    #cat ${output_file[0]} \
+    #  | sed -e 's#"header_filename">.*<br/>#"header_filename"><br/>#' > normalized_output
 
-    ([[ '${expected_file}' == *.gz ]] && gunzip -c ${expected_file} || cat ${expected_file}) \
-      | sed -e 's#"header_filename">.*<br/>#"header_filename"><br/>#' > normalized_expected
+    #([[ '${expected_file}' == *.gz ]] && gunzip -c ${expected_file} || cat ${expected_file}) \
+    #  | sed -e 's#"header_filename">.*<br/>#"header_filename"><br/>#' > normalized_expected
 
-    diff normalized_output normalized_expected \
+    diff <(head -n 100 ${output_file} ) <(head -n 100 ${expected_file}) \
       && ( echo "Test PASSED" && exit 0 ) || ( echo "Test FAILED, output file mismatch." && exit 1 )
     """
 }

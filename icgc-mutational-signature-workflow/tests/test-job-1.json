@@ -1,7 +1,7 @@
 {
-    "input_file": "/input/snv_mnv_indel.icgc.testset.maf",
-    "expected_output": "/expected/expected.txt",
+    "input_file": "/home/runner/work/icgc-argo-mutational-signatures/icgc-argo-mutational-signatures/icgc-mutational-signature-workflow/tests/input/snv_mnv_indel.icgc.testset.maf",
+    "expected_output": "/home/runner/work/icgc-argo-mutational-signatures/icgc-argo-mutational-signatures/icgc-mutational-signature-workflow/tests/expected/expected_assignment.json",
     "publish_dir": "outdir",
-    "cpus": 1,
-    "mem": 1
+    "cpus": 2,
+    "mem": 6
 }
