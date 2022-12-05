@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If using this workflow, please cite it as below"
+authors:
+  - family-names: Seillier
+    given-names: Lancelot
+  - family-names: Stancl
+    given-names: Paula
+  - family-names: Beaudry
+    given-names: Felix
+  - family-names: Ng
+    given-names: Alvin
+  - family-names: Xiang
+    given-names: Linda
+  - family-names: Chakrabarti
+    given-names: Arnab
+  - family-names: Hu
+    given-names: Taobo
+  - family-names: Lehmann
+    given-names: Kjong-Van
+title: "ICGC-ARGO mutational signature workflow"
+version: 1.0
+doi: ...
+date-released: ...
+url: ...
