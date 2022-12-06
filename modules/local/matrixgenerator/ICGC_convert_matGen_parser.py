@@ -36,7 +36,7 @@ maf_out_raw = pd.DataFrame(columns=["Hugo", "Entrez", "Center", "Genome", "Chrom
 maf_out_raw["Hugo"] = maf_raw["Hugo_Symbol"]
 maf_out_raw["Entrez"] = "."
 maf_out_raw["Center"] = "ICGC_consensus"
-maf_out_raw["Genome"] = "GRCh37"
+maf_out_raw["Genome"] = "GRCh38"
 maf_out_raw["Chrom"] = maf_raw["Chromosome"]
 maf_out_raw["Start"] = maf_raw["Start_position"]
 maf_out_raw["End"] = maf_raw["End_position"]
@@ -63,10 +63,11 @@ maf_out_raw.to_csv( './maf/' + args.o + '.maf', index = False, sep="\t")
 
 '''INSTALL REFERENCE GENOME - HAS TO BE PERFORMED ONLY ONCE FOR EACH RESPECTIVE GENOME REFERENCE '''
 
-if os.path.exists(os.path.join(refCheck.__path__[0], 'references/chromosomes/tsb/', args.ref)) == True:
+'''if os.path.exists(os.path.join(refCheck.__path__[0], 'references/chromosomes/tsb/', args.ref)) == True:
     print('Reference genome already installed, procede with matrix generation...')
 else:
     genInstall.install(args.ref, rsync=False)
+'''
 
 matrices = matGen.SigProfilerMatrixGeneratorFunc(args.o, args.ref, './maf', exome=False, bed_file=None, chrom_based=False, plot=False, tsb_stat=False, seqInfo=False)
 

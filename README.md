@@ -1,39 +1,50 @@
-# ![nf-core/icgc_mutational_signature_workflow](docs/images/nf-core-icgc_mutational_signature_workflow_logo_light.png#gh-light-mode-only) ![nf-core/icgc_mutational_signature_workflow](docs/images/nf-core-icgc_mutational_signature_workflow_logo_dark.png#gh-dark-mode-only)
 
-[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/icgc_mutational_signature_workflow/results)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
+# ICGC-ARGO Mutational Signature Workflow
 
-[![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A521.10.3-23aa62.svg)](https://www.nextflow.io/)
-[![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
-[![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
-[![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
-[![Launch on Nextflow Tower](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Nextflow%20Tower-%234256e7)](https://tower.nf/launch?pipeline=https://github.com/nf-core/icgc_mutational_signature_workflow)
+This repository is an online versioned backup of the transfer of the icgc-argo mutational signature workflow from WFPM to NF-core standards. This repository is under heavy construction.
 
-[![Get help on Slack](http://img.shields.io/badge/slack-nf--core%20%23icgc_mutational_signature_workflow-4A154B?labelColor=000000&logo=slack)](https://nfcore.slack.com/channels/icgc_mutational_signature_workflow)[![Follow on Twitter](http://img.shields.io/badge/twitter-%40nf__core-1DA1F2?labelColor=000000&logo=twitter)](https://twitter.com/nf_core)[![Watch on YouTube](http://img.shields.io/badge/youtube-nf--core-FF0000?labelColor=000000&logo=youtube)](https://www.youtube.com/c/nf-core)
 
-## Introduction
+==================================================================================
+                   ICGC-ARGO MUTATIONAL SIGNATURE WORKFLOW
+==================================================================================
+#### Documentation goes here
 
-<!-- TODO nf-core: Write a 1-2 sentence summary of what data the pipeline is for and what it does -->
+#### Authors
+Lancelot Seillier @biolancer <lseillier@ukaachen.de>
+Paula Stancl @ <e-mail-adresse>
+Felix Beaudry @ <e-mail-adresse>
+Linda Xiang @ <e-mail-adresse>
+Arnab Chakrabatri @ <e-mail-adresse>
+Taobo Hu @ <e-mail-adresse>
+Alvin Ng @ <e-mail-adresse>
+Kjong Lehmann @ <e-mail-adresse>
+...and more people?
 
-**nf-core/icgc_mutational_signature_workflow** is a bioinformatics best-practice analysis pipeline for This is the initial commit for transferring the Mutational Signature Workflow from WFPM to Nextflow based on nf-core standards.
+----------------------------------------------------------------------------------
+
+Required Parameters:
+
+
+General Parameters:
+
+
+----------------------------------------------------------------------------------
 
 The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool to run tasks across multiple compute infrastructures in a very portable manner. It uses Docker/Singularity containers making installation trivial and results highly reproducible. The [Nextflow DSL2](https://www.nextflow.io/docs/latest/dsl2.html) implementation of this pipeline uses one container per process which makes it much easier to maintain and update software dependencies. Where possible, these processes have been submitted to and installed from [nf-core/modules](https://github.com/nf-core/modules) in order to make them available to all nf-core pipelines, and to everyone within the Nextflow community!
 
-<!-- TODO nf-core: Add full-sized test dataset and amend the paragraph below if applicable -->
-
-On release, automated continuous integration tests run the pipeline on a full-sized dataset on the AWS cloud infrastructure. This ensures that the pipeline runs on AWS, has sensible resource allocation defaults set to run on real-world datasets, and permits the persistent storage of results to benchmark between pipeline releases and other analysis sources.The results obtained from the full-sized test can be viewed on the [nf-core website](https://nf-co.re/icgc_mutational_signature_workflow/results).
-
 ## Pipeline summary
 
-<!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
+![workflow](/assets/workflow_diagramm.png)
 
-1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
-2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
+1. Invoke matrixgenerator module to generate trinucleotide matrix from ICGC-MAF files
+2. Invoke signaturetoolslib module to assign trinucleotide counts to the respective COSMIC signatures
+3. Invoke ... to generate a 
 
 ## Quick Start
 
-1. Install [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#installation) (`>=21.10.3`)
+1. Install [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#installation) (`>=21.10`)
 
-2. Install any of [`Docker`](https://docs.docker.com/engine/installation/), [`Singularity`](https://www.sylabs.io/guides/3.0/user-guide/) (you can follow [this tutorial](https://singularity-tutorial.github.io/01-installation/)), [`Podman`](https://podman.io/), [`Shifter`](https://nersc.gitlab.io/development/shifter/how-to-use/) or [`Charliecloud`](https://hpc.github.io/charliecloud/) for full pipeline reproducibility _(you can use [`Conda`](https://conda.io/miniconda.html) both to install Nextflow itself and also to manage software within pipelines. Please only use it within pipelines as a last resort; see [docs](https://nf-co.re/usage/configuration#basic-configuration-profiles))_.
+2. Install [`Docker`](https://docs.docker.com/engine/installation/) or [`Singularity`](https://www.sylabs.io/guides/3.0/user-guide/) (you can follow [this tutorial](https://singularity-tutorial.github.io/01-installation/)), for full pipeline reproducibility _(you can use [`Conda`](https://conda.io/miniconda.html) both to install Nextflow itself and also to manage software within pipelines. Please only use it within pipelines as a last resort; see [docs](https://nf-co.re/usage/configuration#basic-configuration-profiles))_.
 
 3. Download the pipeline and test it on a minimal dataset with a single command:
 
@@ -62,31 +73,21 @@ The nf-core/icgc_mutational_signature_workflow pipeline comes with documentation
 
 ## Credits
 
-nf-core/icgc_mutational_signature_workflow was originally written by Lancelot Seillier.
 
-We thank the following people for their extensive assistance in the development of this pipeline:
-
-<!-- TODO nf-core: If applicable, make list of people who have also contributed -->
 
 ## Contributions and Support
 
-If you would like to contribute to this pipeline, please see the [contributing guidelines](.github/CONTRIBUTING.md).
+Workflow maintenance and matrixgenerator module: Lancelot Seillier
+Signaturetoolslib module: Paula Stancl
+Assignment error module: Felix Beaudry
+Visualization module: Taobo Hu
 
-For further information or help, don't hesitate to get in touch on the [Slack `#icgc_mutational_signature_workflow` channel](https://nfcore.slack.com/channels/icgc_mutational_signature_workflow) (you can join with [this invite](https://nf-co.re/join/slack)).
+For inquiries concerning the usage of the workflow or the ICGC project, please contact either:
+Linda Xiang
+Alvin Ng
+Kjong-Van Lehmann
 
 ## Citations
 
-<!-- TODO nf-core: Add citation for pipeline after first release. Uncomment lines below and update Zenodo doi and badge at the top of this file. -->
-<!-- If you use  nf-core/icgc_mutational_signature_workflow for your analysis, please cite it using the following doi: [10.5281/zenodo.XXXXXX](https://doi.org/10.5281/zenodo.XXXXXX) -->
-
-<!-- TODO nf-core: Add bibliography of tools and data used in your pipeline -->
-
-An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
-
-You can cite the `nf-core` publication as follows:
-
-> **The nf-core framework for community-curated bioinformatics pipelines.**
->
-> Philip Ewels, Alexander Peltzer, Sven Fillinger, Harshil Patel, Johannes Alneberg, Andreas Wilm, Maxime Ulysse Garcia, Paolo Di Tommaso & Sven Nahnsen.
->
-> _Nat Biotechnol._ 2020 Feb 13. doi: [10.1038/s41587-020-0439-x](https://dx.doi.org/10.1038/s41587-020-0439-x).
+- The matrixgenerator module uses the SigProfiler matgen module of the SigProfiler suite: [Citation of Alexandrov et al.]
+- The signaturetoolslib module uses signaturetoolslib, an R library for mutational signature decomposition: [Citation of SigToolsLib author]

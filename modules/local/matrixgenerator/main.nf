@@ -40,18 +40,18 @@ params.publish_dir = ""  // set to empty string will disable publishDir
 
 // tool specific parmas go here, add / change as needed
 params.input_file = ""
-params.output_pattern = "tmp"  // output file name pattern
+params.output_pattern = "matgen_out"  // output file name pattern
 
 
 process matrixgenerator {
-  container "${params.container ?: container[params.container_registry ?: default_container_registry]}:${params.container_version ?: version}"
+//  container "${params.container ?: container[params.container_registry ?: default_container_registry]}:${params.container_version ?: version}" // invokes "Ambiguous method overloading for method org.codehaus.groovy.runtime.GStringImpl#getAt." error -- maybe rewrite everything?
   publishDir "${params.publish_dir}/${task.process.replaceAll(':', '_')}", mode: "copy", enabled: params.publish_dir
 
   cpus params.cpus
   memory "${params.mem} GB"
 
   input:  // input, make update as needed
-    path input_file
+    path params.input
 
   output:  // output, make update as needed
     path "Trinucleotide_matrix_${params.output_pattern}.txt", emit: output_file
@@ -60,7 +60,7 @@ process matrixgenerator {
     // add and initialize variables here as needed
     """
     mkdir -p output_dir
-    python /tools/ICGC_convert_matGen_parser.py ${params.input_file} ${params.output_pattern} GRCh38
+    python ../../../modules/local/matrixgenerator/ICGC_convert_matGen_parser.py ${params.input} ${params.output_pattern} GRCh38
     """
 }
 

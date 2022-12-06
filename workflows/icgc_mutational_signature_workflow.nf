@@ -48,20 +48,15 @@ include { signaturetoolslib } from '../modules/local/signaturetoolslib/main'
 */
 
 workflow ICGCMUTSIGWORKFLOW {
-  take:  // update as needed
-    input
-
 
   main:  // update as needed
     matrixgenerator(params.input)
-    signaturetoolslib(matrixgenerator.out.output)
-
-
+    signaturetoolslib(matrixgenerator.out.output_file)
+    
   emit:  // update as needed
-    output_file = signaturetoolslib.out.output
+    output = signaturetoolslib.out.output
 
 }
-
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
