@@ -7,17 +7,27 @@ This repository is an online versioned backup of the transfer of the icgc-argo m
 ==================================================================================
                    ICGC-ARGO MUTATIONAL SIGNATURE WORKFLOW
 ==================================================================================
+
 #### Documentation goes here
 
 #### Authors
+
 Lancelot Seillier @biolancer <lseillier@ukaachen.de>
+
 Paula Stancl @ <e-mail-adresse>
+
 Felix Beaudry @ <e-mail-adresse>
+
 Linda Xiang @ <e-mail-adresse>
+
 Arnab Chakrabatri @ <e-mail-adresse>
+
 Taobo Hu @ <e-mail-adresse>
+
 Alvin Ng @ <e-mail-adresse>
+
 Kjong Lehmann @ <e-mail-adresse>
+
 ...and more people?
 
 ----------------------------------------------------------------------------------
@@ -77,15 +87,16 @@ The nf-core/icgc_mutational_signature_workflow pipeline comes with documentation
 
 ## Contributions and Support
 
-Workflow maintenance and matrixgenerator module: Lancelot Seillier
-Signaturetoolslib module: Paula Stancl
-Assignment error module: Felix Beaudry
-Visualization module: Taobo Hu
+- Workflow maintenance and matrixgenerator module: Lancelot Seillier
+- Signaturetoolslib module: Paula Stancl
+- Assignment error module: Felix Beaudry
+- Visualization module: Taobo Hu
+
 
 For inquiries concerning the usage of the workflow or the ICGC project, please contact either:
-Linda Xiang
-Alvin Ng
-Kjong-Van Lehmann
+- Linda Xiang
+- Alvin Ng
+- Kjong-Van Lehmann
 
 ## Citations
 

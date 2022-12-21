@@ -43,7 +43,7 @@ params.input_file = ""
 params.output_dir = "tmp"
 
 process signaturetoolslib {
-  container "${params.container ?: container[params.container_registry ?: default_container_registry]}:${params.container_version ?: version}"
+//  container "${params.container ?: container[params.container_registry ?: default_container_registry]}:${params.container_version ?: version}"
   publishDir "${params.publish_dir}/${task.process.replaceAll(':', '_')}", mode: "copy", enabled: params.publish_dir
 
   cpus params.cpus
@@ -61,7 +61,7 @@ process signaturetoolslib {
     """
     mkdir -p ${params.output_dir}
     
-    Rscript --vanilla /scripts/SignatureToolsLib.R --input_file ${input_file} --output_dir ${params.output_dir}
+    Rscript --vanilla ../../../modules/local/signaturetoolslib/SignatureToolsLib.R --input_file ${input_file} --output_dir ${params.output_dir}
 
     """
 }

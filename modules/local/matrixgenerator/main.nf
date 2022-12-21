@@ -41,6 +41,7 @@ params.publish_dir = ""  // set to empty string will disable publishDir
 // tool specific parmas go here, add / change as needed
 params.input_file = ""
 params.output_pattern = "matgen_out"  // output file name pattern
+params.do_refinstall = null
 
 
 process matrixgenerator {
@@ -52,6 +53,7 @@ process matrixgenerator {
 
   input:  // input, make update as needed
     path params.input
+    params.do_refinstall
 
   output:  // output, make update as needed
     path "Trinucleotide_matrix_${params.output_pattern}.txt", emit: output_file

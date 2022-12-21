@@ -19,9 +19,8 @@ include { refinstall } from './subworkflows/refinstall_matgen/main'
 */
 
 workflow {
-    if (params.do_refinstall = true)
-    { refinstall()
-      ICGCMUTSIGWORKFLOW () }
+    if (params.do_refinstall == true)
+    { refinstall() }
     else
     { ICGCMUTSIGWORKFLOW () }
 }
