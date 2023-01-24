@@ -7,7 +7,9 @@ option_list = list(
   make_option(c("-i", "--input_file"), type="character", default=NULL,
               help="Matrix of counts", metavar="character"),
   make_option(c("-o", "--output_dir"), type="character", default=NULL,
-              help="Output directory", metavar="character")
+              help="Output directory", metavar="character"),
+  make_option(c("-n", "--output_name"), type="character", default=NULL,
+              help="Output file", metavar="character")
   
 );
 
@@ -25,6 +27,7 @@ set.seed(164)
 ## Input variables
 DIR_RES <- opt$output_dir
 INPUT_MAT <- opt$input_file
+OUT_NAME <- opt$output_name
 
 ## Import matrix of counts
 mut_mat_ICGC <- read.table(INPUT_MAT, row.names = 1, header=TRUE)
@@ -48,7 +51,7 @@ sign_res <- assignSignatures(mut_mat_ICGC, COSMIC30_subs_signatures)
 
 ### Save output as JSON
 signature.tools.lib::fitToJSON(sign_res,
-          paste0(DIR_RES, "/export_assignments.json") )
+          paste0(DIR_RES, "/",  OUT_NAME, ".json"))
 
 
                        

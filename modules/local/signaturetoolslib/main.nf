@@ -40,7 +40,8 @@ params.publish_dir = ""  // set to empty string will disable publishDir
 
 // tool specific parmas go here, add / change as needed
 params.input_file = ""
-params.output_dir = "tmp"
+params.outdir = ""
+params.output = ""
 
 process signaturetoolslib {
 //  container "${params.container ?: container[params.container_registry ?: default_container_registry]}:${params.container_version ?: version}"
@@ -53,15 +54,15 @@ process signaturetoolslib {
     path input_file
 
   output:  // output, make update as needed
-    path "${params.output_dir}/export_assignments.json", emit: output_file
+    path "${params.outdir}/${params.output}", emit: output //_file
 
   script:
     // add and initialize variables here as needed
 
     """
-    mkdir -p ${params.output_dir}
+    mkdir -p ${params.outdir}
     
-    Rscript --vanilla ../../../modules/local/signaturetoolslib/SignatureToolsLib.R --input_file ${input_file} --output_dir ${params.output_dir}
+    Rscript --vanilla ../../../modules/local/signaturetoolslib/SignatureToolsLib.R --input_file ${input_file} --output_dir ${params.outdir} --output_name ${params.output}
 
     """
 }
