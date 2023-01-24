@@ -10,6 +10,8 @@ This repository is an online versioned backup of the transfer of the icgc-argo m
 
 #### Documentation goes here
 
+The ICGC-Mutational Signature pipeline takes ICGC MAF data as input and converts it to a SBS-JSON file. Further work planned.
+
 #### Authors
 
 Lancelot Seillier @biolancer <lseillier@ukaachen.de>
@@ -32,8 +34,17 @@ Kjong Lehmann @ <e-mail-adresse>
 
 ----------------------------------------------------------------------------------
 
-Required Parameters:
+Use case example:
+```
+nextflow run main.nf -c nextflow.config --input path/to/icgc.maf --outdir path/to/output --output output_filename
+```
 
+Required Parameters:
+```
+--input: 	Absolute path to the input file. ATTENTION: Needs to be a MAF file following the ICGC formatting convention
+--outdir:	Absolute path to the output folder. Will be created if not already present.
+--output:	Name for the output JSON file; e.g. ${output}.json
+```
 
 General Parameters:
 
@@ -87,11 +98,10 @@ The nf-core/icgc_mutational_signature_workflow pipeline comes with documentation
 
 ## Contributions and Support
 
-- Workflow maintenance and matrixgenerator module: Lancelot Seillier
+- Matrixgenerator module: Lancelot Seillier
 - Signaturetoolslib module: Paula Stancl
 - Assignment error module: Felix Beaudry
 - Visualization module: Taobo Hu
-
 
 For inquiries concerning the usage of the workflow or the ICGC project, please contact either:
 - Linda Xiang
