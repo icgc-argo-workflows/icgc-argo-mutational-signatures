@@ -38,12 +38,12 @@ Kjong Lehmann @ <e-mail-adresse>
 
 Use case example:
 ```
-nextflow run main.nf -c nextflow.config --input path/to/icgc.maf --outdir path/to/output --output output_filename
+nextflow run main.nf -c nextflow.config --input path/to/vcf_folder --outdir path/to/output --output output_filename
 ```
 
 Required Parameters:
 ```
---input: 	Absolute path to the input file. ATTENTION: Needs to be a MAF file following the ICGC formatting convention
+--input: 	Absolute path to the input folder containing VCF files.
 --outdir:	Absolute path to the output folder. Will be created if not already present.
 --output:	Name for the output JSON file; e.g. ${output}.json
 ```
@@ -59,7 +59,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool
 
 ![workflow](/assets/workflow_diagramm.png)
 
-1. Invoke matrixgenerator module to generate trinucleotide matrix from ICGC-MAF files
+1. Invoke matrixgenerator module to generate trinucleotide matrix from VCF files
 2. Invoke signaturetoolslib module to assign trinucleotide counts to the respective COSMIC signatures
 3. Invoke ... to generate a 
 

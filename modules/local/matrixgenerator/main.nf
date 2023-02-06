@@ -61,7 +61,6 @@ process matrixgenerator {
   script:
     // add and initialize variables here as needed
     """
-    mkdir -p output_dir
     python ../../../modules/local/matrixgenerator/ICGC_allSigs_matGen.py ${params.input} ${params.output_pattern}
     """
 }
