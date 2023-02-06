@@ -1,7 +1,7 @@
 #!/usr/bin/env nextflow
 
 nextflow.enable.dsl = 2
-version = '0.1.0'
+version = '0.2.0'
 
 /*
   Copyright (c) 2021, ICGC ARGO
@@ -41,7 +41,6 @@ params.publish_dir = ""  // set to empty string will disable publishDir
 // tool specific parmas go here, add / change as needed
 params.input = ""
 params.output_pattern = "matgen_out"  // output file name pattern
-params.do_refinstall = null
 
 
 process matrixgenerator {
@@ -53,16 +52,17 @@ process matrixgenerator {
 
   input:  // input, make update as needed
     path params.input
-    params.do_refinstall
 
   output:  // output, make update as needed
-    path "Trinucleotide_matrix_${params.output_pattern}.txt", emit: output_file
+    path "Trinucleotide_matrix_${params.output_pattern}_SBS96.txt", emit: output_SBS
+    path "Trinucleotide_matrix_${params.output_pattern}_DBS78.txt", emit: output_DBS
+    path "Trinucleotide_matrix_${params.output_pattern}_ID83.txt", emit: output_ID
 
   script:
     // add and initialize variables here as needed
     """
     mkdir -p output_dir
-    python ../../../modules/local/matrixgenerator/ICGC_convert_matGen_parser.py ${params.input} ${params.output_pattern} GRCh38
+    python ../../../modules/local/matrixgenerator/ICGC_allSigs_matGen.py ${params.input} ${params.output_pattern}
     """
 }
 
