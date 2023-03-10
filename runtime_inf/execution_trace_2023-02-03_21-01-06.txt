@@ -1,0 +1,2 @@
+task_id	hash	native_id	name	status	exit	submit	duration	realtime	%cpu	peak_rss	peak_vmem	rchar	wchar
+1	b4/3ace28	2315649	ICGCMUTSIGWORKFLOW:matrixgenerator	FAILED	1	2023-02-03 21:01:08.161	3.9s	3.9s	-	-	-	-	-
