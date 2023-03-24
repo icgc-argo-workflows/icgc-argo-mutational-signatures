@@ -1,7 +1,7 @@
 {
     "name": "signaturetoolslib",
     "version": "0.1.1",
-    "description": "Mutational signature tool",
+    "description": "Mutational signature assignment tool",
     "main": "main.nf",
     "deprecated": false,
     "keywords": [
