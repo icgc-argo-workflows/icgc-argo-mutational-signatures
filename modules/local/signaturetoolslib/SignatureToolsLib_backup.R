@@ -6,6 +6,8 @@ library("optparse")
 option_list = list(
   make_option(c("-i", "--input_file"), type="character", default=NULL,
               help="Matrix of counts", metavar="character"),
+  make_option(c("-o", "--output_dir"), type="character", default=NULL,
+              help="Output directory", metavar="character"),
   make_option(c("-n", "--output_name"), type="character", default=NULL,
               help="Output file", metavar="character")
   
@@ -14,7 +16,7 @@ option_list = list(
 opt_parser = OptionParser(option_list=option_list);
 opt = parse_args(opt_parser);
 
-if (is.null(opt$input_file)){
+if (is.null(opt$input_file) | is.null(opt$output_dir) ){
   print_help(opt_parser)
   stop("Missing some input arguments... Exiting...", call.=FALSE)
 }
@@ -23,6 +25,7 @@ if (is.null(opt$input_file)){
 set.seed(164)
 
 ## Input variables
+DIR_RES <- opt$output_dir
 INPUT_MAT <- opt$input_file
 OUT_NAME <- opt$output_name
 
@@ -47,7 +50,8 @@ assignSignatures <- function(input_matrix, sig_matrix) {
 sign_res <- assignSignatures(mut_mat_ICGC, COSMIC30_subs_signatures)
 
 ### Save output as JSON
-signature.tools.lib::fitToJSON(sign_res,paste0(OUT_NAME, ".json"))
+signature.tools.lib::fitToJSON(sign_res,
+          paste0(DIR_RES, "/",  OUT_NAME, ".json"))
 
 
                        

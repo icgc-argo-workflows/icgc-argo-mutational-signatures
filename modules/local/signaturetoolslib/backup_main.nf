@@ -25,7 +25,7 @@ version = '0.1.1'
   SOFTWARE.
 
   Authors:
-    [PaulaStancl]
+    PaulaStancl
 */
 
 // universal params go here
@@ -54,13 +54,15 @@ process signaturetoolslib {
     path input_file
 
   output:  // output, make update as needed
-    path "${params.output}.json", emit: output //_file
+    path "${params.outdir}/${params.output}", emit: output //_file
 
   script:
     // add and initialize variables here as needed
 
-    """   
-    Rscript --vanilla ../../../modules/local/signaturetoolslib/SignatureToolsLib.R --input_file ${input_file} --output_name ${params.output}
+    """
+    mkdir -p ${params.outdir}
+    
+    Rscript --vanilla ../../../modules/local/signaturetoolslib/SignatureToolsLib.R --input_file ${input_file} --output_dir ${params.outdir} --output_name ${params.output}
 
     """
 }
