@@ -23,7 +23,7 @@ parser.add_argument('o', metavar='--output_file', type=str, help='Identifier of 
 args = parser.parse_args()
 
 '''
-Generate output folder
+Generate output folder seperate from the sigprofiler folder
 '''
 if os.path.exists('./matgen_tmp/') == False:
     os.mkdir('matgen_tmp')

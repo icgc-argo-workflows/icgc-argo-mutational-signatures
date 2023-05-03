@@ -40,7 +40,7 @@ params.publish_dir = ""  // set to empty string will disable publishDir
 
 // tool specific parmas go here, add / change as needed
 params.input = ""
-params.output_pattern = "tmp_matgen"  // output file name pattern
+params.output = ""  // output file name pattern
 
 
 process matrixgenerator {
@@ -54,14 +54,14 @@ process matrixgenerator {
     path params.input
 
   output:  // output, make update as needed
-    path "Trinucleotide_matrix_${params.output_pattern}_SBS96.txt", emit: output_SBS
-    path "Trinucleotide_matrix_${params.output_pattern}_DBS78.txt", emit: output_DBS
-    path "Trinucleotide_matrix_${params.output_pattern}_ID83.txt", emit: output_ID
+    path "Trinucleotide_matrix_${params.output}_SBS96.txt", emit: output_SBS
+    path "Trinucleotide_matrix_${params.output}_DBS78.txt", emit: output_DBS
+    path "Trinucleotide_matrix_${params.output}_ID83.txt", emit: output_ID
 
   script:
     // add and initialize variables here as needed
     """
-    python ../../../modules/local/matrixgenerator/ICGC_allSigs_matGen.py ${params.input} ${params.output_pattern}
+    python ../../../modules/local/matrixgenerator/ICGC_allSigs_matGen.py ${params.input} ${params.output}
     """
 }
 
