@@ -9,7 +9,6 @@ nextflow.enable.dsl = 2
 */
 
 include { ICGCMUTSIGWORKFLOW } from './workflows/icgc_mutational_signature_workflow'
-include { refinstall } from './subworkflows/refinstall_matgen/main'
 
 
 /*
@@ -19,9 +18,7 @@ include { refinstall } from './subworkflows/refinstall_matgen/main'
 */
 
 workflow {
-    if (params.do_refinstall == true)
-    { refinstall() }
-    else
+
     { ICGCMUTSIGWORKFLOW () }
 }
 
