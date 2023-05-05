@@ -48,9 +48,9 @@ Kjong Lehmann @ <e-mail-adresse>
 
 4. To run the matrixgeneration of the counts, a one time installation of the GRCh38 reference genome is required. This can be done by invoking the [refinstall python script](bin/refinstall.py) in the /bin subfolder using.
 
-'''
+```
 python3 refinstall.py
-'''
+```
 
 5. To run the workflow using default settings, see the following use case example:
 
