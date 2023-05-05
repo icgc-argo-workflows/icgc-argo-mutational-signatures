@@ -28,23 +28,28 @@ version = '0.2.0'
     [Lancelot Seillier]
 */
 
+
 // universal params go here
+////
+
 params.container_registry = ""
 params.container_version = ""
 params.container = ""
 
-params.cpus = 1
-params.mem = 1  // GB
-params.publish_dir = ""  // set to empty string will disable publishDir
+params.cpus = ""
+params.mem = ""             // GB
+params.publish_dir = ""     // set to empty string will disable publishDir
 
 
 // tool specific parmas go here, add / change as needed
+////
+
 params.input = ""
 params.output = ""  // output file name pattern
 
 
-process matrixgenerator {
-//  container "${params.container ?: container[params.container_registry ?: default_container_registry]}:${params.container_version ?: version}" // invokes "Ambiguous method overloading for method org.codehaus.groovy.runtime.GStringImpl#getAt." error -- maybe rewrite everything?
+process MATRIXGENERATOR {
+
   publishDir "${params.publish_dir}/${task.process.replaceAll(':', '_')}", mode: "copy", enabled: params.publish_dir
 
   cpus params.cpus
@@ -54,12 +59,12 @@ process matrixgenerator {
     path params.input
 
   output:  // output, make update as needed
-    path "Trinucleotide_matrix_${params.output}_SBS96.txt", emit: output_SBS
-    path "Trinucleotide_matrix_${params.output}_DBS78.txt", emit: output_DBS
-    path "Trinucleotide_matrix_${params.output}_ID83.txt", emit: output_ID
+    path "Trinucleotide_matrix_${params.output}_SBS96.txt",     emit: output_SBS
+    path "Trinucleotide_matrix_${params.output}_DBS78.txt",     emit: output_DBS
+    path "Trinucleotide_matrix_${params.output}_ID83.txt",      emit: output_ID
 
   script:
-    // add and initialize variables here as needed
+
     """
     python ../../../modules/local/matrixgenerator/ICGC_allSigs_matGen.py ${params.input} ${params.output}
     """
@@ -68,8 +73,9 @@ process matrixgenerator {
 
 // this provides an entry point for this main script, so it can be run directly without clone the repo
 // using this command: nextflow run <git_acc>/<repo>/<pkg_name>/<main_script>.nf -r <pkg_name>.v<pkg_version> --params-file xxx
+
 workflow {
-  matrixgenerator(
-    file(params.input_file)
+  MATRIXGENERATOR(
+    file(params.input)
   )
 }

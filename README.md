@@ -12,9 +12,9 @@ This repository is an online versioned backup of the transfer of the icgc-argo m
 
 #### Documentation goes here
 
-The ICGC-Mutational Signature pipeline takes ICGC MAF data as input and converts it to a SBS-JSON file. Further work planned.
+The ICGC-ARGO Mutational Signature Analysis workflow is a Nextflow based workflow manager which takes VCF files as input and generates mutational count matrices, signature exposures and error thresholds as output. The workflow uses openly available software for each module and each module can be run as a single instance. The workflow will be ported to adhere to the standards set by the [nf-core community](https://nf-co.re/). Further extension of the pipeline concerning pre- and postprocessing of the data is planned.
 
-#### Authors
+#### Authors & Collaborators
 
 Lancelot Seillier @biolancer <lseillier@ukaachen.de>
 
@@ -28,6 +28,8 @@ Arnab Chakrabatri @ <e-mail-adresse>
 
 Taobo Hu @ <e-mail-adresse>
 
+Sandesh Memane @ <e-mail-adresse>
+
 Alvin Ng @ <e-mail-adresse>
 
 Kjong Lehmann @ <e-mail-adresse>
@@ -36,19 +38,36 @@ Kjong Lehmann @ <e-mail-adresse>
 
 ----------------------------------------------------------------------------------
 
-Use case example:
+### Usage & Requirements
+
+1. Install [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#installation) (`>=21.10`)
+
+2. **THIS STEP IS STILL A WIP! Docker and Singularity containers will be provided in the future, this step was left in the Usage description for completeness but should be skipped until further notice**. Install [`Docker`](https://docs.docker.com/engine/installation/) or [`Singularity`](https://www.sylabs.io/guides/3.0/user-guide/) (you can follow [this tutorial](https://singularity-tutorial.github.io/01-installation/)), for full pipeline reproducibility _(you can use [`Conda`](https://conda.io/miniconda.html) both to install Nextflow itself and also to manage software within pipelines. Please only use it within pipelines as a last resort; see [docs](https://nf-co.re/usage/configuration#basic-configuration-profiles))_.
+
+3. Set up a [conda environment](https://docs.conda.io/en/latest/) and install the dependencies specified in the [requirements.txt](bin/requirements.txt) file. Most importantly, the workflow won't work with **pandas > 1.5.3**.
+
+4. To run the matrixgeneration of the counts, a one time installation of the GRCh38 reference genome is required. This can be done by invoking the [refinstall python script](bin/refinstall.py) in the /bin subfolder using.
+
+'''
+python3 refinstall.py
+'''
+
+5. To run the workflow using default settings, see the following use case example:
+
 ```
 nextflow run main.nf -c nextflow.config --input path/to/vcf_folder --outdir path/to/output --output output_filename
 ```
 
-Required Parameters:
+**Required Parameters**:
+
 ```
 --input: 	Absolute path to the input folder containing VCF files.
 --outdir:	Absolute path to the output folder. Will be created if not already present.
 --output:	Name for the output JSON file; e.g. ${output}.json
 ```
 
-General Parameters:
+**Optional Parameters**:
+
 
 
 ----------------------------------------------------------------------------------
@@ -59,58 +78,29 @@ The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool
 
 ![workflow](/assets/workflow_diagramm.png)
 
-1. Invoke matrixgenerator module to generate trinucleotide matrix from VCF files
+1. Invoke matrixgenerator module to generate count matrices for SBS98, DBS78 and ID83 from the input VCF files
 2. Invoke signaturetoolslib module to assign trinucleotide counts to the respective COSMIC signatures
-3. Invoke ... to generate a 
-
-## Quick Start
-
-1. Install [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#installation) (`>=21.10`)
-
-2. Install [`Docker`](https://docs.docker.com/engine/installation/) or [`Singularity`](https://www.sylabs.io/guides/3.0/user-guide/) (you can follow [this tutorial](https://singularity-tutorial.github.io/01-installation/)), for full pipeline reproducibility _(you can use [`Conda`](https://conda.io/miniconda.html) both to install Nextflow itself and also to manage software within pipelines. Please only use it within pipelines as a last resort; see [docs](https://nf-co.re/usage/configuration#basic-configuration-profiles))_.
-
-3. Download the pipeline and test it on a minimal dataset with a single command:
-
-   ```bash
-   nextflow run nf-core/icgc_mutational_signature_workflow -profile test,YOURPROFILE --outdir <OUTDIR>
-   ```
-
-   Note that some form of configuration will be needed so that Nextflow knows how to fetch the required software. This is usually done in the form of a config profile (`YOURPROFILE` in the example command above). You can chain multiple config profiles in a comma-separated string.
-
-   > - The pipeline comes with config profiles called `docker`, `singularity`, `podman`, `shifter`, `charliecloud` and `conda` which instruct the pipeline to use the named tool for software management. For example, `-profile test,docker`.
-   > - Please check [nf-core/configs](https://github.com/nf-core/configs#documentation) to see if a custom config file to run nf-core pipelines already exists for your Institute. If so, you can simply use `-profile <institute>` in your command. This will enable either `docker` or `singularity` and set the appropriate execution settings for your local compute environment.
-   > - If you are using `singularity`, please use the [`nf-core download`](https://nf-co.re/tools/#downloading-pipelines-for-offline-use) command to download images first, before running the pipeline. Setting the [`NXF_SINGULARITY_CACHEDIR` or `singularity.cacheDir`](https://www.nextflow.io/docs/latest/singularity.html?#singularity-docker-hub) Nextflow options enables you to store and re-use the images from a central location for future pipeline runs.
-   > - If you are using `conda`, it is highly recommended to use the [`NXF_CONDA_CACHEDIR` or `conda.cacheDir`](https://www.nextflow.io/docs/latest/conda.html) settings to store the environments in a central location for future pipeline runs.
-
-4. Start running your own analysis!
-
-   <!-- TODO nf-core: Update the example "typical command" below used to run the pipeline -->
-
-   ```bash
-   nextflow run nf-core/icgc_mutational_signature_workflow --input samplesheet.csv --outdir <OUTDIR> --genome GRCh37 -profile <docker/singularity/podman/shifter/charliecloud/conda/institute>
-   ```
-
-## Documentation
-
-The nf-core/icgc_mutational_signature_workflow pipeline comes with documentation about the pipeline [usage](https://nf-co.re/icgc_mutational_signature_workflow/usage), [parameters](https://nf-co.re/icgc_mutational_signature_workflow/parameters) and [output](https://nf-co.re/icgc_mutational_signature_workflow/output).
-
-## Credits
+3. Invoke the error thresholding module to generate error statistics based on Kullback-Leibler Divergence (KL), root mean square error (RSME), sum absolute of differences (SAD) and Hellinger Distance
+4. Invoke the sigprofiler module to run the whole suite of tools described in the [SigProfilerExtractor](https://osf.io/t6j7u/wiki/home/) software package, including error estimation and default plots
 
 
+### Credits
 
-## Contributions and Support
+### Contributions and Support
 
-- Matrixgenerator module: Lancelot Seillier
+- Matrixgenerator & Sigprofiler module: Lancelot Seillier
 - Signaturetoolslib module: Paula Stancl
-- Assignment error module: Felix Beaudry
+- Error Thresholding module: Felix Beaudry
 - Visualization module: Taobo Hu
+- Containerization: Sandesh Memane
 
 For inquiries concerning the usage of the workflow or the ICGC project, please contact either:
 - Linda Xiang
 - Alvin Ng
 - Kjong-Van Lehmann
 
-## Citations
+### Citations
 
-- The matrixgenerator module uses the SigProfiler matgen module of the SigProfiler suite: [Citation of Alexandrov et al.]
-- The signaturetoolslib module uses signaturetoolslib, an R library for mutational signature decomposition: [Citation of SigToolsLib author]
+- The matrixgenerator module uses the SigProfiler matgen module of the SigProfiler suite: [Alexandrov et al.](10.1016/j.xgen.2022.100179)
+- The signaturetoolslib module uses signaturetoolslib, an R library for mutational signature decomposition: [Degasperi et al.](10.1126/science.abl9283)
+- The Error Thresholding module uses the R library packages *philentropy*, *Metrics* and *topicmodels*: [Citation of the packages]
