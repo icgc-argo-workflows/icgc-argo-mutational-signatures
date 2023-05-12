@@ -13,7 +13,8 @@ library(topicmodels)
 
 option_list = list(
   make_option(c("-i", "--input"), type="character", default=NULL,help="input from upstream", metavar="character"),
-  make_option(c("-s", "--signature_matrix"), type="character", default=NULL,help="matrix from which the signatures were calculated", metavar="character")
+  make_option(c("-s", "--signature_matrix"), type="character", default=NULL,help="matrix from which the signatures were calculated", metavar="character"),
+  make_option(c("-o", "--output"), type="character", default=NULL,help="output file name", metavar="character")
 )
 
 opt_parser = OptionParser(option_list=option_list)
@@ -21,6 +22,7 @@ opt = parse_args(opt_parser)
 
 input_location <- opt$input
 signature_matrix_location <- opt$signature_matrix
+output_name <- opt$output
 
 ##import data
 ##test data
@@ -64,5 +66,5 @@ names(all.results) <- c("KL","RMSE","SAD","Hellinger")
 #conver to JSON and write
 ListJSON <- jsonlite::toJSON(all.results,pretty=TRUE,auto_unbox=TRUE)
 
-write(ListJSON,file = paste("errors.json",sep=""))
+write(ListJSON,file = paste(output_name, "_errors.json",sep=""))
 
