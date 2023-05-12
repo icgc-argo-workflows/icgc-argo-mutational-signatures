@@ -29,39 +29,41 @@ version = '0.2.0'
 */
 
 // universal params go here
-params.container_registry = ""
-params.container_version = ""
-params.container = ""
+////
 
-params.cpus = 4
-params.mem = 8  // GB
+params.container_registry =         ""
+params.container_version =          ""
+params.container =                  ""
 
-params.publish_dir = ""  // set to empty string will disable publishDir
+params.cpus =                       ""
+params.mem =                        ""  // GB
+params.publishDir =                 ""  // set to empty string will disable publishDir
 
 // tool specific parmas go here, add / change as needed
+////
 
-params.input = ""
-params.output = "sigpro_tmp"  // output file name pattern
-params.min = 1    // minimal number of signatures to assign count data to, default is [1]
-params.max = 10   // maximal number of signatures to assign count data to, default is [10]
-params.nmf = 100  // number of NMF replicates to run, default is [100]
+params.input =                      ""
+params.output =                     ""              // output file name pattern
+params.min =                        ""              // minimal number of signatures to assign count data to, default is [1]
+params.max =                        ""              // maximal number of signatures to assign count data to, default is [10]
+params.nmf =                        ""              // number of NMF replicates to run, default is [100]
 
 
-process sigprofiler {
-//  container "${params.container ?: container[params.container_registry ?: default_container_registry]}:${params.container_version ?: version}" // invokes "Ambiguous method overloading for method org.codehaus.groovy.runtime.GStringImpl#getAt." error -- maybe rewrite everything?
-  publishDir "${params.publish_dir}/${task.process.replaceAll(':', '_')}", mode: "copy", enabled: params.publish_dir
+process SIGPROFILER {
+
+  publishDir "${params.publishDir}/${task.process.replaceAll(':', '_')}", mode: "copy"
 
   cpus params.cpus
   memory "${params.mem} GB"
 
-  input:  // input, make update as needed
+  input:
     path params.input
 
-  output:  // output, make update as needed
-    path params.output,                                  emit: sigpro_out
+  output:
+    path params.output,     emit: sigpro_out
 
   script:
-    // add and initialize variables here as needed
+    
     """
     python ../../../modules/local/sigprofiler/sigprofiler_ICGC.py ${params.input} ${params.output} ${params.min} ${params.max} ${params.nmf} ${params.cpus}
     """
@@ -72,7 +74,7 @@ process sigprofiler {
 // using this command: nextflow run <git_acc>/<repo>/<pkg_name>/<main_script>.nf -r <pkg_name>.v<pkg_version> --params-file xxx
 
 workflow {
-  sigprofiler(
+  SIGPROFILER(
     file(params.input_file)
   )
 }

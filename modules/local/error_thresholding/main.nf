@@ -29,38 +29,43 @@ version = '0.2.0'
 */
 
 // universal params go here
-params.container_registry = ""
-params.container_version = ""
-params.container = ""
+////
 
-params.cpus = 1
-params.mem = 1  // GB
-params.publish_dir = ""  // set to empty string will disable publishDir
+params.container_registry =         ""
+params.container_version =          ""
+params.container =                  ""
+
+params.cpus =                       ""
+params.mem =                        ""  // GB
+params.publishDir =                 ""  // set to empty string will disable publishDir
 
 
 // tool specific parmas go here, add / change as needed
-params.input = ""
-params.signature_matrix = ""
+////
+
+params.input =                      ""
+params.signature_matrix =           ""
+params.output =                     ""
 
 
-process error_thresholding {
-//  container "${params.container ?: container[params.container_registry ?: default_container_registry]}:${params.container_version ?: version}" // invokes "Ambiguous method overloading for method org.codehaus.groovy.runtime.GStringImpl#getAt." error -- maybe rewrite everything?
-  publishDir "${params.publish_dir}/${task.process.replaceAll(':', '_')}", mode: "copy", enabled: params.publish_dir
+process ERRORTHRESH {
+
+  publishDir "${params.publishDir}/${task.process.replaceAll(':', '_')}", mode: "copy"
 
   cpus params.cpus
   memory "${params.mem} GB"
 
-  input:  // input, make update as needed
+  input:  
     path input
     path signature_matrix
 
-  output:  // output, make update as needed
-    path "errors.json", emit: error
+  output:  
+    path "${params.output}_errors.json", emit: error
 
   script:
-    // add and initialize variables here as needed // 
+   
     """
-    Rscript --vanilla ../../../modules/local/error_thresholding/error_thresholder.R --input ${input} --signature_matrix ${signature_matrix}
+    Rscript --vanilla ../../../modules/local/error_thresholding/error_thresholder.R --input ${input} --signature_matrix ${signature_matrix} --output ${params.output}
     """
 }
 
@@ -70,5 +75,5 @@ process error_thresholding {
 workflow {
     input = channel.fromPath(params.input)
     signature_matrix = channel.fromPath(params.signature_matrix)  
-    error_thresholding(input, signature_matrix)
+    ERRORTHRESH(input, signature_matrix)
 }

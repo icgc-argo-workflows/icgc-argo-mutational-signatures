@@ -32,33 +32,33 @@ version = '0.2.0'
 // universal params go here
 ////
 
-params.container_registry = ""
-params.container_version = ""
-params.container = ""
+params.container_registry =         ""
+params.container_version =          ""
+params.container =                  ""
 
-params.cpus = ""
-params.mem = ""             // GB
-params.publish_dir = ""     // set to empty string will disable publishDir
+params.cpus =                       ""
+params.mem =                        ""  // GB
+params.publishDir =                 ""  // set to empty string will disable publishDir
 
 
 // tool specific parmas go here, add / change as needed
 ////
 
-params.input = ""
-params.output = ""  // output file name pattern
+params.input =                      ""
+params.output =                     ""  // output file name pattern
 
 
 process MATRIXGENERATOR {
 
-  publishDir "${params.publish_dir}/${task.process.replaceAll(':', '_')}", mode: "copy", enabled: params.publish_dir
+  publishDir "${params.publishDir}/${task.process.replaceAll(':', '_')}", mode: "copy"
 
   cpus params.cpus
   memory "${params.mem} GB"
 
-  input:  // input, make update as needed
+  input:
     path params.input
 
-  output:  // output, make update as needed
+  output:
     path "Trinucleotide_matrix_${params.output}_SBS96.txt",     emit: output_SBS
     path "Trinucleotide_matrix_${params.output}_DBS78.txt",     emit: output_DBS
     path "Trinucleotide_matrix_${params.output}_ID83.txt",      emit: output_ID

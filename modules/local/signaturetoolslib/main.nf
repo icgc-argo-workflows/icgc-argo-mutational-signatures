@@ -29,35 +29,37 @@ version = '0.1.1'
 */
 
 // universal params go here
-params.container_registry = ""
-params.container_version = ""
-params.container = ""
+////
 
-params.cpus = 1
-params.mem = 1  // GB
-params.publish_dir = ""  // set to empty string will disable publishDir
+params.container_registry =         ""
+params.container_version =          ""
+params.container =                  ""
+
+params.cpus =                       ""
+params.mem =                        ""  // GB
+params.publishDir =                 ""  // set to empty string will disable publishDir
 
 
 // tool specific parmas go here, add / change as needed
-params.input_file = ""
-params.outdir = ""
-params.output = ""
+////
 
-process signaturetoolslib {
-//  container "${params.container ?: container[params.container_registry ?: default_container_registry]}:${params.container_version ?: version}"
-  publishDir "${params.publish_dir}/${task.process.replaceAll(':', '_')}", mode: "copy", enabled: params.publish_dir
+params.input_file =                 ""
+params.output =                     ""
+
+process SIGTOOLSLIB {
+
+  publishDir "${params.publishDir}/${task.process.replaceAll(':', '_')}", mode: "copy"
 
   cpus params.cpus
   memory "${params.mem} GB"
 
-  input:  // input, make update as needed
+  input:
     path input_file
 
-  output:  // output, make update as needed
-    path "${params.output}.json", emit: output //_file
+  output:
+    path "${params.output}.json",   emit: output
 
   script:
-    // add and initialize variables here as needed
 
     """   
     Rscript --vanilla ../../../modules/local/signaturetoolslib/SignatureToolsLib.R --input_file ${input_file} --output_name ${params.output}
@@ -69,7 +71,7 @@ process signaturetoolslib {
 // this provides an entry point for this main script, so it can be run directly without clone the repo
 // using this command: nextflow run <git_acc>/<repo>/<pkg_name>/<main_script>.nf -r <pkg_name>.v<pkg_version> --params-file xxx
 workflow {
-  signaturetoolslib(
+  SIGTOOLSLIB(
     file(params.input_file)
   )
 }
