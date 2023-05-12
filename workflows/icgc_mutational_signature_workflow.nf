@@ -28,9 +28,9 @@ nextflow.enable.dsl = 2
 // Main non-nf-core packages for the workflow
 
 include { MATRIXGENERATOR       }       from '../modules/local/matrixgenerator/main'
-include { signaturetoolslib     }       from '../modules/local/signaturetoolslib/main'
-include { error_thresholding    }       from '../modules/local/error_thresholding/main'
-include { sigprofiler           }       from '../modules/local/sigprofiler/main'
+include { SIGTOOLSLIB           }       from '../modules/local/signaturetoolslib/main'
+include { ERRORTHRESH           }       from '../modules/local/error_thresholding/main'
+include { SIGPROFILER           }       from '../modules/local/sigprofiler/main'
 
 // Submodules required for the workflow
 
@@ -54,13 +54,10 @@ workflow ICGCMUTSIGWORKFLOW {
 
   main:  // update as needed
     MATRIXGENERATOR(params.input)
-    sigprofiler(params.input)
-    signaturetoolslib(MATRIXGENERATOR.out.output_SBS)
-    error_thresholding(signaturetoolslib.out.output, MATRIXGENERATOR.out.output_SBS)
-    
-  emit:  // update as needed
-    output = signaturetoolslib.out.output
-    
+    SIGPROFILER(params.input)
+    SIGTOOLSLIB(MATRIXGENERATOR.out.output_SBS)
+    ERRORTHRESH(SIGTOOLSLIB.out.output, MATRIXGENERATOR.out.output_SBS)
+
 }
 
 /*
