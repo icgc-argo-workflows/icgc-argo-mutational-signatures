@@ -3,6 +3,8 @@
 
 This repository is an online versioned backup of the transfer of the icgc-argo mutational signature workflow from WFPM to NF-core standards. This repository is under heavy construction.
 
+**TO-DO**: Transfer Nextflow-based pipeline into nf-core suite.
+
 
 ==================================================================================
 
@@ -44,9 +46,9 @@ Kjong Lehmann @ <e-mail-adresse>
 
 2. **THIS STEP IS STILL A WIP! Docker and Singularity containers will be provided in the future, this step was left in the Usage description for completeness but should be skipped until further notice**. Install [`Docker`](https://docs.docker.com/engine/installation/) or [`Singularity`](https://www.sylabs.io/guides/3.0/user-guide/) (you can follow [this tutorial](https://singularity-tutorial.github.io/01-installation/)), for full pipeline reproducibility _(you can use [`Conda`](https://conda.io/miniconda.html) both to install Nextflow itself and also to manage software within pipelines. Please only use it within pipelines as a last resort; see [docs](https://nf-co.re/usage/configuration#basic-configuration-profiles))_.
 
-3. Set up a [conda environment](https://docs.conda.io/en/latest/) and install the dependencies specified in the [requirements.txt](bin/requirements.txt) file. Most importantly, the workflow won't work with **pandas > 1.5.3**.
+3. Set up a [conda environment](https://docs.conda.io/en/latest/) and run the [Installdeps.sh script](bin/Installdeps.sh) file. Until containerization is finished and tested, this should set up a conda environement named *icgcmutsig*, install all required dependencies and python packages and run the [reference installation script](bin/refinstall.py) for the count matrix generation.
 
-4. To run the matrixgeneration of the counts, a one time installation of the GRCh38 reference genome is required. This can be done by invoking the [refinstall python script](bin/refinstall.py) in the /bin subfolder using.
+4. To run the matrixgeneration of the counts, a one time installation of the GRCh38 reference genome is required. If step 3 did not finish successfully, you can install the reference genome by invoking the [refinstall python script](bin/refinstall.py).
 
 ```
 python3 refinstall.py
@@ -55,20 +57,26 @@ python3 refinstall.py
 5. To run the workflow using default settings, see the following use case example:
 
 ```
-nextflow run main.nf -c nextflow.config --input path/to/vcf_folder --outdir path/to/output --output output_filename
+nextflow run main.nf -c nextflow.config --input path/to/vcf_folder --output output_filename --publishDir path/to/output_folder
 ```
 
 **Required Parameters**:
 
 ```
---input: 	Absolute path to the input folder containing VCF files.
---outdir:	Absolute path to the output folder. Will be created if not already present.
---output:	Name for the output JSON file; e.g. ${output}.json
+--input: 	    Absolute path to the input folder containing VCF files.
+--output:	    Naming convention for the output files; e.g. ${output}.json, ${output}.txt, etc.
+--publishDir:   Output directory (as absolute path)
 ```
 
 **Optional Parameters**:
 
-
+```
+--min:          Minimal amount of signatures to extract for the SigProfiler module; default: 1
+--max:          Maximal amount of signatures to extract for the SigProfiler module; default: 10
+--nmf:          NMF iterations/replicates to be performed by the SigProfiler module; default: 100
+--cpus:         Cores which should be assigned to the workflow; default: 2
+--mem:          RAM memory assigned to the workflow following Nextflow naming convention (e.g. "8.GB", "128.MB"); default: 8.GB
+``` 
 
 ----------------------------------------------------------------------------------
 
@@ -83,6 +91,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool
 3. Invoke the error thresholding module to generate error statistics based on Kullback-Leibler Divergence (KL), root mean square error (RSME), sum absolute of differences (SAD) and Hellinger Distance
 4. Invoke the sigprofiler module to run the whole suite of tools described in the [SigProfilerExtractor](https://osf.io/t6j7u/wiki/home/) software package, including error estimation and default plots
 
+Runtime statistics (e.g. Memory Usage, etc.) can be found in the generated ./runtime_inf folder in the workflow main folder.
 
 ### Credits
 
