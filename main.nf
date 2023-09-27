@@ -17,8 +17,6 @@ nextflow.enable.dsl = 2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-params.fasta = WorkflowMain.getGenomeAttribute(params, 'fasta')
-
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     VALIDATE & PRINT PARAMETER SUMMARY
@@ -27,6 +25,7 @@ params.fasta = WorkflowMain.getGenomeAttribute(params, 'fasta')
 
 include { validateParameters; paramsHelp } from 'plugin/nf-validation'
 
+// TODO: Adapt the help message
 // Print help message if needed
 if (params.help) {
     def logo = NfcoreTemplate.logo(workflow, params.monochrome_logs)
