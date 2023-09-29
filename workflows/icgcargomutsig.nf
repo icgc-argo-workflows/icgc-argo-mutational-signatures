@@ -46,9 +46,17 @@ ch_multiqc_custom_methods_description = params.multiqc_methods_description ? fil
 // MODULE: Installed directly from nf-core/modules
 //
 
-include { MATRIXGENERATOR             } from '../modules/local/sigprofiler/matrixgenerator'
 include { MULTIQC                     } from '../modules/nf-core/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoftwareversions/main'
+
+//
+// MODULE: Local modules created for the workflow
+//
+
+include { MATRIXGENERATOR             } from '../modules/local/sigprofiler/matrixgenerator'
+include { SIGPROFILER                 } from '../modules/local/sigprofiler/extractor'
+include { SIGNATURETOOLSLIB           } from '../modules/local/signaturetoolslib/signaturetoolslib'
+include { ERRORTRESHOLDING            } from '../modules/local/errorthresholding/errorthresholding'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -74,7 +82,41 @@ workflow ICGCARGOMUTSIG {
     )
     ch_versions = ch_versions.mix(MATRIXGENERATOR.out.versions)
 
+    //
+    // MODULE : exctractor
+    //
 
+    EXTRACTOR (
+        params.input,
+        params.outpu_pattern,
+        params.filetype
+    )
+    ch_versions = ch_versions.mix(EXTRACTOR.out.versions)
+
+    //
+    // MODULE : signaturetoolslib
+    //
+
+    SIGNATURETOOLSLIB (
+        MATRIXGENERATOR.out.output_SBS,
+        params.output_pattern
+    )
+    ch_versions = ch_versions.mix(SIGNATURETOOLSLIB.out.versions)
+
+    //
+    // MODULE: errorthresholding
+    //
+
+    ERRORTRESHOLDING (
+        SIGNATURETOOLSLIB.out.json,
+        MATRIXGENERATOR.out.output_SBS,
+        params.output_pattern
+    )
+    ch_versions = ch_versions.mix(ERRORTRESHOLDING.out.versions)
+
+    //
+    // MODULE : Dump software versions
+    //
 
     CUSTOM_DUMPSOFTWAREVERSIONS (
         ch_versions.unique().collectFile(name: 'collated_versions.yml')

@@ -10,7 +10,7 @@
             "type": "object",
             "fa_icon": "fas fa-terminal",
             "description": "Define where the pipeline should find input data and save output data.",
-            "required": ["input", "outdir"],
+            "required": ["input", "output_pattern", "outdir"],
             "properties": {
                 "input": {
                     "type": "string",
@@ -21,6 +21,12 @@
                     "description": "Path to the input data for the mutational signature workflow",
                     "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row. See [usage docs](https://nf-co.re/icgcargomutsig/usage#samplesheet-input).",
                     "fa_icon": "fas fa-file-code"
+                },
+                "output_pattern": {
+                    "type": "string",
+                    "help_text": "Output naming convention for the data",
+                    "description": "Output naming convention for the output files",
+                    "fa_icon": "fas fa-calendar-check"
                 },
                 "outdir": {
                     "type": "string",
@@ -42,20 +48,16 @@
                 }
             }
         },
-        "matrixgenerator_options": {
-            "title": "Matrixgenerator options",
+        "sigprofiler_options": {
+            "title": "Sigprofiler options",
             "type": "object",
-            "description": "Define which parameters should be considered for the matrixgenerator module",
+            "description": "Define which parameters should be considered for the matrixgenerator and extractor module",
             "default": "",
             "properties": {
-                "output_pattern": {
-                    "type": "string",
-                    "help_text": "Output naming convention for the data",
-                    "description": "Output naming convention for the output files"
-                },
                 "filetype": {
                     "type": "string",
-                    "description": "Defines the input filetype, either MAF or VCF"
+                    "description": "Defines the input filetype, either MAF or VCF",
+                    "fa_icon": "fas fa-chevron-right"
                 },
                 "ref": {
                     "type": "string",
@@ -64,10 +66,39 @@
                 "exome": {
                     "type": "boolean",
                     "description": "Was the data generated using targeted panel/whole exome sequencing?"
+                },
+                "min": {
+                    "type": "integer",
+                    "default": 4,
+                    "description": "Minimal amount of signatures to extract"
+                },
+                "max": {
+                    "type": "integer",
+                    "default": 30,
+                    "description": "Maximal amount of signatures to extract"
+                },
+                "nmf": {
+                    "type": "integer",
+                    "default": 100,
+                    "description": "Number of NMF iterations before converging"
                 }
             },
             "fa_icon": "fas fa-border-none",
-            "required": ["output_pattern", "filetype", "ref"]
+            "required": ["filetype", "ref"]
+        },
+        "signaturetoolslib_options": {
+            "title": "Signaturetoolslib options",
+            "type": "object",
+            "description": "Define which parameters should be considered for the signaturetoolslib module",
+            "default": "",
+            "properties": {
+                "n_boots": {
+                    "type": "integer",
+                    "default": 100,
+                    "description": "Number of bootstrap iterations for the fit-function"
+                }
+            },
+            "fa_icon": "fas fa-border-none"
         },
         "institutional_config_options": {
             "title": "Institutional config options",
@@ -274,7 +305,10 @@
             "$ref": "#/definitions/input_output_options"
         },
         {
-            "$ref": "#/definitions/matrixgenerator_options"
+            "$ref": "#/definitions/sigprofiler_options"
+        },
+        {
+            "$ref": "#/definitions/signaturetoolslib_options"
         },
         {
             "$ref": "#/definitions/institutional_config_options"

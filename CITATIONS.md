@@ -10,9 +10,17 @@
 
 ## Pipeline tools
 
-- [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
+- [SigProfilerMatrixGenerator](https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-019-6041-2)
 
-  > Andrews, S. (2010). FastQC: A Quality Control Tool for High Throughput Sequence Data [Online]. Available online https://www.bioinformatics.babraham.ac.uk/projects/fastqc/.
+  > Bergstrom, E.N., Huang, M.N., Mahto, U. et al. SigProfilerMatrixGenerator: a tool for visualizing and exploring patterns of small mutational events. BMC Genomics 20, 685 (2019). https://doi.org/10.1186/s12864-019-6041-2
+
+- [SigProfilerExtractor](https://www.sciencedirect.com/science/article/pii/S2666979X22001240?via%3Dihub)
+
+  > S.M. Ashiqul Islam, Marcos Díaz-Gay, Yang Wu, Mark Barnes, Raviteja Vangara, Erik N. Bergstrom, Yudou He, Mike Vella, Jingwei Wang, Jon W. Teague, Peter Clapham, Sarah Moody, Sergey Senkin, Yun Rose Li, Laura Riva, Tongwu Zhang, Andreas J. Gruber, Christopher D. Steele, Burçak Otlu, Azhar Khandekar, Ammal Abbasi, Laura Humphreys, Natalia Syulyukina, Samuel W. Brady, Boian S. Alexandrov, Nischalan Pillay, Jinghui Zhang, David J. Adams, Iñigo Martincorena, David C. Wedge, Maria Teresa Landi, Paul Brennan, Michael R. Stratton, Steven G. Rozen, Ludmil B. Alexandrov. Uncovering novel mutational signatures by de novo extraction with SigProfilerExtractor. Cell Genomics. Volume 2, Issue 11, 2022, 100179, ISSN 2666-979X, https://doi.org/10.1016/j.xgen.2022.100179.
+
+- [signature.tools.lib](https://www.science.org/doi/10.1126/science.abl9283)
+
+  > A. Degasperi et al. Substitution mutational signatures in whole-genome-sequenced cancers in the UK population. Science, doi:10.1126/science.abl9283, 2022.
 
 - [MultiQC](https://pubmed.ncbi.nlm.nih.gov/27312411/)
 

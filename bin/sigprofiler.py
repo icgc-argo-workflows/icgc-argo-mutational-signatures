@@ -1,30 +1,31 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-'''
+"""
 Load dependencies
-'''
+"""
 
 import os
 import sys
 import shutil
+import pandas as pd
 import argparse
 import logging
-import glob
-import pandas as pd
 from SigProfilerMatrixGenerator import install as genInstall
-from SigProfilerMatrixGenerator.scripts import SigProfilerMatrixGeneratorFunc as matGen
+from SigProfilerExtractor import sigpro as sig
 
-'''CMD line parser'''
+"""
+CMD line parser
+"""
 
 def parse_args(argv=None):
     """Define and immediately parse command line arguments."""
     parser = argparse.ArgumentParser(
-        description="Copy and convert VCF input files into the SBS96 matrix for BRCAness derivation.",
+        description="Full workflow package from SigProfiler which generates both matrices and the according Signature assignment.",
         epilog="Example: NA",
     )
     parser.add_argument(
-        "--filetype",
+        "--fileytpe",
         type=str,
         help="Defines the provided input filetype - GDC-MAF or a VCF-containing folder",
         default="vcf"
@@ -38,8 +39,20 @@ def parse_args(argv=None):
     parser.add_argument(
         "--output_pattern",
         type=str,
-        help="Output file naming pattern",
-        default="matgen_out"
+        help="Identifier of the output files.",
+        default=""
+    )
+    parser.add_argument(
+        "--min",
+        type=int,
+        help="Define the minimal amount of signatures which should be assigned.",
+        default=4
+    )
+    parser.add_argument(
+        "--max",
+        type=int,
+        help="Define the maximal amount of signatures which should be assigned.",
+        default=30
     )
     parser.add_argument(
         "--ref",
@@ -48,20 +61,26 @@ def parse_args(argv=None):
         default="GRCh38"
     )
     parser.add_argument(
+        "--nmf",
+        type=int,
+        help="Amount of NMF replicates SigProfiler should perform before converging",
+        default=100
+    )
+    parser.add_argument(
         "--exome",
         type=bool,
         help="Was the input data derived from Exome/Panel data or WGS data?",
         action='store_true'
     )
     parser.add_argument(
-        "--l",
-        help="The desired log level (default INFO).",
-        choices=("CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG"),
-        default="INFO",
+        "--threads",
+        type=int,
+        help="Amount of threads which should be assigned to SigProfiler",
+        default=8
     )
     return parser.parse_args(argv)
 
-logger = logging.getLogger()
+############################################################################################################
 
 ######################################################### Define analysis functions - MAF case
 
@@ -110,11 +129,21 @@ def maf_input_routine(in_maf, ref_version):
             logger.error(f"The provided MAF file {maf_raw} does not follow GDC format requirements. Please recheck your input MAF.")
             raise ValueError(f"The provided MAF file {maf_raw} does not follow GDC format requirements. Please recheck your input MAF.")
 
-######################################################### MAIN SCRIPT
+logger = logging.getLogger()
+
+############################################################################################################
+'''
+Define the signature assignment routine
+'''
+
+def sigpro_func(filetype, output_pattern, ref, min, max, nmf, threads, exome):
+    sig.sigProfilerExtractor(filetype, output_pattern, "./matgen", reference_genome=ref, minimum_signatures=min, maximum_signatures=max, nmf_replicates=nmf, cpu=threads, exome=exome)
+
+############################################################################################################
 
 def main(argv=None):
     args = parse_args(argv)
-    logging.basicConfig(filename='matrixgenerator.log', filemode='w', level=args.l, format="%(asctime)s : [%(levelname)s] %(message)s")
+    logging.basicConfig(filename='sigprofiler.log', filemode='w', level=args.l, format="%(asctime)s : [%(levelname)s] %(message)s")
     if args.filetype in ["maf", "MAF"]:
         if os.path.isfile(args.input):
             maf_for_analysis = maf_input_routine(args.input, args.ref)
@@ -123,14 +152,7 @@ def main(argv=None):
             '''Install reference genome'''
             genInstall.install(args.ref, bash=True)
             '''Run the Matrix Generator Module to generate matrices for SBS96 from input data'''
-            matrices = matGen.SigProfilerMatrixGeneratorFunc(args.output_pattern, args.ref, './matgen', exome=args.exome, bed_file=None, chrom_based=False, plot=False, tsb_stat=False, seqInfo=False)
-            '''Move output files and rename if required.'''
-            for file in glob.glob("./matgen/output/SBS/*.SBS96*"):
-                shutil.move(file, './Trinucleotide_matrix_' + args.output_pattern + '_SBS96.txt')
-            for file in glob.glob("./matgen/output/DBS/*.DBS78*"):
-                shutil.move(file, './Trinucleotide_matrix_' + args.output_pattern + '_DBS78.txt')
-            for file in glob.glob("./matgen/output/ID/*.ID83*"):
-                shutil.move(file, './Trinucleotide_matrix_' + args.output_pattern + '_ID83.txt')
+            sigpro_func(args.filetype, args.output_pattern, args.ref, args.min, args.max, args.nmf, args.threads, args.exome)
         else:
             logger.error(f"The given input MAF file {args.input} was not found!")
             raise ValueError(f"The given input MAF file {args.input} was not found!")
@@ -142,14 +164,7 @@ def main(argv=None):
             '''Install reference genome'''
             genInstall.install(args.ref, bash=True)
             '''Run the Matrix Generator Module to generate matrices for SBS96 from input data'''
-            matrices = matGen.SigProfilerMatrixGeneratorFunc(args.output_pattern, args.ref, './matgen', exome=args.exome, bed_file=None, chrom_based=False, plot=False, tsb_stat=False, seqInfo=False)
-            '''Move output files and rename if required.'''
-            for file in glob.glob("./matgen/output/SBS/*.SBS96*"):
-                shutil.move(file, './Trinucleotide_matrix_' + args.output_pattern + '_SBS96.txt')
-            for file in glob.glob("./matgen/output/DBS/*.DBS78*"):
-                shutil.move(file, './Trinucleotide_matrix_' + args.output_pattern + '_DBS78.txt')
-            for file in glob.glob("./matgen/output/ID/*.ID83*"):
-                shutil.move(file, './Trinucleotide_matrix_' + args.output_pattern + '_ID83.txt')
+            sigpro_func(args.filetype, args.output_pattern, args.ref, args.min, args.max, args.nmf, args.threads, args.exome)
         else:
             logger.error(f"The given temporary folder {args.input} was not found!")
             raise ValueError(f"The given temporary folder {args.input} was not found!")
@@ -157,6 +172,5 @@ def main(argv=None):
         logger.error(f"The provided information for the input file type is wrong. Please define either 'vcf' or 'maf'!")
         raise ValueError(f"The provided information for the input file type is wrong. Please define either 'vcf' or 'maf'!")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     sys.exit(main())
