@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -9,6 +9,7 @@ import os
 import sys
 import shutil
 import pandas as pd
+import glob
 import argparse
 import logging
 from SigProfilerMatrixGenerator import install as genInstall
@@ -25,7 +26,7 @@ def parse_args(argv=None):
         epilog="Example: NA",
     )
     parser.add_argument(
-        "--fileytpe",
+        "--filetype",
         type=str,
         help="Defines the provided input filetype - GDC-MAF or a VCF-containing folder",
         default="vcf"
@@ -68,15 +69,26 @@ def parse_args(argv=None):
     )
     parser.add_argument(
         "--exome",
-        type=bool,
         help="Was the input data derived from Exome/Panel data or WGS data?",
         action='store_true'
+    )
+    parser.add_argument(
+        "--context",
+        type=str,
+        help="Defines which context needs to be extracted, can be an SBS context, DINUC or ID or multiple ones separated by a comma",
+        default="96"
     )
     parser.add_argument(
         "--threads",
         type=int,
         help="Amount of threads which should be assigned to SigProfiler",
         default=8
+    )
+    parser.add_argument(
+        "--l",
+        help="The desired log level (default INFO).",
+        choices=("CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG"),
+        default="INFO",
     )
     return parser.parse_args(argv)
 
@@ -136,8 +148,8 @@ logger = logging.getLogger()
 Define the signature assignment routine
 '''
 
-def sigpro_func(filetype, output_pattern, ref, min, max, nmf, threads, exome):
-    sig.sigProfilerExtractor(filetype, output_pattern, "./matgen", reference_genome=ref, minimum_signatures=min, maximum_signatures=max, nmf_replicates=nmf, cpu=threads, exome=exome)
+def sigpro_func(filetype, output_pattern, ref, min, max, nmf, threads, exome, context):
+    sig.sigProfilerExtractor(filetype, output_pattern, "./matgen", reference_genome=ref, minimum_signatures=min, maximum_signatures=max, nmf_replicates=nmf, cpu=threads, exome=exome, context_type=context)
 
 ############################################################################################################
 
@@ -152,7 +164,7 @@ def main(argv=None):
             '''Install reference genome'''
             genInstall.install(args.ref, bash=True)
             '''Run the Matrix Generator Module to generate matrices for SBS96 from input data'''
-            sigpro_func(args.filetype, args.output_pattern, args.ref, args.min, args.max, args.nmf, args.threads, args.exome)
+            sigpro_func(args.filetype, args.output_pattern, args.ref, args.min, args.max, args.nmf, args.threads, args.exome, args.context)
         else:
             logger.error(f"The given input MAF file {args.input} was not found!")
             raise ValueError(f"The given input MAF file {args.input} was not found!")
@@ -164,7 +176,8 @@ def main(argv=None):
             '''Install reference genome'''
             genInstall.install(args.ref, bash=True)
             '''Run the Matrix Generator Module to generate matrices for SBS96 from input data'''
-            sigpro_func(args.filetype, args.output_pattern, args.ref, args.min, args.max, args.nmf, args.threads, args.exome)
+            sigpro_func(args.filetype, args.output_pattern, args.ref, args.min, args.max, args.nmf, args.threads, args.exome, args.context)
+            shutil.move('./matgen/output', './output')
         else:
             logger.error(f"The given temporary folder {args.input} was not found!")
             raise ValueError(f"The given temporary folder {args.input} was not found!")

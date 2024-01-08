@@ -1,9 +1,7 @@
-#!/usr/bin/Rscript
+#!/usr/bin/env Rscript
 
 library(optparse)
 library(jsonlite)
-library(signature.tools.lib)
-
 library(philentropy)
 library(Metrics)
 library(dplyr)

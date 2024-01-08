@@ -2,7 +2,7 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "https://raw.githubusercontent.com/nf-core/icgcargomutsig/master/nextflow_schema.json",
     "title": "nf-core/icgcargomutsig pipeline parameters",
-    "description": "Mutational signature assignemnt workflow",
+    "description": "Mutational signature assignment workflow",
     "type": "object",
     "definitions": {
         "input_output_options": {
@@ -57,7 +57,8 @@
                 "filetype": {
                     "type": "string",
                     "description": "Defines the input filetype, either MAF or VCF",
-                    "fa_icon": "fas fa-chevron-right"
+                    "fa_icon": "fas fa-chevron-right",
+                    "enum": ["vcf", "maf"]
                 },
                 "ref": {
                     "type": "string",
@@ -66,6 +67,11 @@
                 "exome": {
                     "type": "boolean",
                     "description": "Was the data generated using targeted panel/whole exome sequencing?"
+                },
+                "context": {
+                    "type": "string",
+                    "default": "96",
+                    "description": "Defines which exposure estimates should be inferred - SBS96, DINUC and/or ID"
                 },
                 "min": {
                     "type": "integer",
@@ -158,7 +164,7 @@
                 "max_cpus": {
                     "type": "integer",
                     "description": "Maximum number of CPUs that can be requested for any single job.",
-                    "default": 16,
+                    "default": 4,
                     "fa_icon": "fas fa-microchip",
                     "hidden": true,
                     "help_text": "Use to set an upper-limit for the CPU requirement for each process. Should be an integer e.g. `--max_cpus 1`"
@@ -166,7 +172,7 @@
                 "max_memory": {
                     "type": "string",
                     "description": "Maximum amount of memory that can be requested for any single job.",
-                    "default": "128.GB",
+                    "default": "16.GB",
                     "fa_icon": "fas fa-memory",
                     "pattern": "^\\d+(\\.\\d+)?\\.?\\s*(K|M|G|T)?B$",
                     "hidden": true,
@@ -175,7 +181,7 @@
                 "max_time": {
                     "type": "string",
                     "description": "Maximum amount of time that can be requested for any single job.",
-                    "default": "240.h",
+                    "default": "12.h",
                     "fa_icon": "far fa-clock",
                     "pattern": "^(\\d+\\.?\\s*(s|m|h|d|day)\\s*)+$",
                     "hidden": true,

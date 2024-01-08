@@ -49,7 +49,6 @@ def parse_args(argv=None):
     )
     parser.add_argument(
         "--exome",
-        type=bool,
         help="Was the input data derived from Exome/Panel data or WGS data?",
         action='store_true'
     )
@@ -107,12 +106,12 @@ def maf_input_routine(in_maf, ref_version):
             converted_maf = mafconverter(maf_raw, ref_version)
             return converted_maf
         else:
-            logger.error(f"The provided MAF file {maf_raw} does not follow GDC format requirements. Please recheck your input MAF.")
-            raise ValueError(f"The provided MAF file {maf_raw} does not follow GDC format requirements. Please recheck your input MAF.")
+            logger.error(f'The provided MAF file {maf_raw} does not follow GDC format requirements. Please recheck your input MAF.')
+            raise ValueError(f'The provided MAF file {maf_raw} does not follow GDC format requirements. Please recheck your input MAF.')
 
 ######################################################### MAIN SCRIPT
 
-def main(argv=None):
+def process(argv=None):
     args = parse_args(argv)
     logging.basicConfig(filename='matrixgenerator.log', filemode='w', level=args.l, format="%(asctime)s : [%(levelname)s] %(message)s")
     if args.filetype in ["maf", "MAF"]:
@@ -159,4 +158,4 @@ def main(argv=None):
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    process()

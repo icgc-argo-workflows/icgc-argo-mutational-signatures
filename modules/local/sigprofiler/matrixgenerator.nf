@@ -16,7 +16,7 @@ process MATRIXGENERATOR {
     path "Trinucleotide_matrix_${params.output_pattern}_SBS96.txt",     emit: output_SBS
     path "Trinucleotide_matrix_${params.output_pattern}_DBS78.txt",     emit: output_DBS
     path "Trinucleotide_matrix_${params.output_pattern}_ID83.txt" ,     emit: output_ID
-    path "matrixgenerator.log"                                    ,     emit: error_log
+    val("process_complete")                                       ,     emit: matgen_finished
     path "versions.yml"                                           ,     emit: versions
 
     when:
@@ -26,7 +26,6 @@ process MATRIXGENERATOR {
     def args = task.ext.args ?: ''
 
     """
-
     matrixgenerator.py \\
         --filetype $filetype \\
         --input $input \\
@@ -35,10 +34,10 @@ process MATRIXGENERATOR {
         2> $workDir/matrixgenerator.error.log \\
         1> $workDir/matrixgenerator.log
 
-
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         python: \$(python --version | sed 's/Python //g')
+        SigProfilerMatrixGenerator: \$(python -c "import SigProfilerMatrixGenerator; print(SigProfilerMatrixGenerator.__version__)")
     END_VERSIONS
     """
 }

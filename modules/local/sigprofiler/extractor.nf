@@ -1,15 +1,16 @@
 process EXTRACTOR {
-    label 'process_medium'
+    label 'process_high'
 
     conda "bioconda::sigmut=1.0"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/sigmut:1.0--hdfd78af_2':
-        'biocontainers/sigmut:1.0--hdfd78af_2' }"
+        'quay.io/superjw/docker-sigprofiler':
+        'quay.io/superjw/docker-sigprofiler' }"
 
     input:
     path input
     val  output_pattern
     val  filetype
+    val  matgen_finished
 
     output:
     path "output"                   , emit: sigprofiler_output
@@ -34,6 +35,7 @@ process EXTRACTOR {
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         python: \$(python --version | sed 's/Python //g')
+        SigProfilerExtractor: \$(python -c "import SigProfilerExtractor; print(SigProfilerExtractor.__version__)")
     END_VERSIONS
     """
 }

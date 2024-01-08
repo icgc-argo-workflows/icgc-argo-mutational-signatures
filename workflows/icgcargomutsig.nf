@@ -54,7 +54,7 @@ include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoft
 //
 
 include { MATRIXGENERATOR             } from '../modules/local/sigprofiler/matrixgenerator'
-include { SIGPROFILER                 } from '../modules/local/sigprofiler/extractor'
+include { EXTRACTOR                   } from '../modules/local/sigprofiler/extractor'
 include { SIGNATURETOOLSLIB           } from '../modules/local/signaturetoolslib/signaturetoolslib'
 include { ERRORTRESHOLDING            } from '../modules/local/errorthresholding/errorthresholding'
 
@@ -88,8 +88,9 @@ workflow ICGCARGOMUTSIG {
 
     EXTRACTOR (
         params.input,
-        params.outpu_pattern,
-        params.filetype
+        params.output_pattern,
+        params.filetype,
+        MATRIXGENERATOR.out.matgen_finished.collect()
     )
     ch_versions = ch_versions.mix(EXTRACTOR.out.versions)
 

@@ -3,8 +3,9 @@ process SIGNATURETOOLSLIB {
 
     conda "r-base=4.2.3,r-optparse=1.7,umccr::r-signature.tools.lib=2.1.2,r-devtools=2.4.5"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'quay.io/biocontainers/mulled-v2-902e85cd7a0af93668ea9fa863a2fc60273562ef:358559ab20513c908a24ec76466665d7254683b4-0':
-        'quay.io/biocontainers/mulled-v2-902e85cd7a0af93668ea9fa863a2fc60273562ef:358559ab20513c908a24ec76466665d7254683b4-0' }"
+        'docker.io/biolancer/signaturetoolslib-docker:latest':
+        'docker.io/biolancer/signaturetoolslib-docker:latest' }"
+    containerOptions '-u $(id -u):$(id -g) --entrypoint=""'
 
     input:
     path input_matrix
