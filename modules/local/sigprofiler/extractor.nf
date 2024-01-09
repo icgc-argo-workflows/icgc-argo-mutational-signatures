@@ -3,8 +3,8 @@ process EXTRACTOR {
 
     conda "bioconda::sigmut=1.0"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'quay.io/superjw/docker-sigprofiler':
-        'quay.io/superjw/docker-sigprofiler' }"
+        'docker.io/fauzul/sigprofiler:1.0':
+        'docker.io/fauzul/sigprofiler:1.0' }"
 
     input:
     path input
@@ -35,7 +35,7 @@ process EXTRACTOR {
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         python: \$(python --version | sed 's/Python //g')
-        SigProfilerExtractor: \$(python -c "import SigProfilerExtractor; print(SigProfilerExtractor.__version__)")
+        SigProfilerAssignment: \$(python -c "import SigProfilerAssignment; print(SigProfilerAssignment.__version__)")
     END_VERSIONS
     """
 }

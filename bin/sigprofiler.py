@@ -13,7 +13,7 @@ import glob
 import argparse
 import logging
 from SigProfilerMatrixGenerator import install as genInstall
-from SigProfilerExtractor import sigpro as sig
+from SigProfilerAssignment import Analyzer as sig
 
 """
 CMD line parser
@@ -148,8 +148,10 @@ logger = logging.getLogger()
 Define the signature assignment routine
 '''
 
-def sigpro_func(filetype, output_pattern, ref, min, max, nmf, threads, exome, context):
-    sig.sigProfilerExtractor(filetype, output_pattern, "./matgen", reference_genome=ref, minimum_signatures=min, maximum_signatures=max, nmf_replicates=nmf, cpu=threads, exome=exome, context_type=context)
+def sigpro_func(filetype, output_pattern, ref, exome, context):
+    sig.cosmic_fit(samples="./assignment", output=output_pattern, input_type=filetype, genome_build=ref, exome=exome, context_type=context)
+
+# minimum_signatures=min, maximum_signatures=max, nmf_replicates=nmf, cpu=threads,  -- this is all lost due to the update?
 
 ############################################################################################################
 
@@ -159,8 +161,8 @@ def main(argv=None):
     if args.filetype in ["maf", "MAF"]:
         if os.path.isfile(args.input):
             maf_for_analysis = maf_input_routine(args.input, args.ref)
-            os.mkdir('matgen')
-            maf_for_analysis.to_csv('./matgen/' + args.output_pattern + '.maf', index = False, sep="\t")
+            os.mkdir('assignment')
+            maf_for_analysis.to_csv('./assignment/' + args.output_pattern + '.maf', index = False, sep="\t")
             '''Install reference genome'''
             genInstall.install(args.ref, bash=True)
             '''Run the Matrix Generator Module to generate matrices for SBS96 from input data'''
@@ -170,14 +172,15 @@ def main(argv=None):
             raise ValueError(f"The given input MAF file {args.input} was not found!")
     elif args.filetype in ["vcf", "VCF"]:
         if os.path.isdir(args.input):
-            os.mkdir('matgen')
+            os.mkdir('assignment')
             for file in glob.glob(args.input + '/*.vcf'):
-                shutil.copy(file, './matgen')
+                shutil.copy(file, './assignment')
             '''Install reference genome'''
             genInstall.install(args.ref, bash=True)
             '''Run the Matrix Generator Module to generate matrices for SBS96 from input data'''
-            sigpro_func(args.filetype, args.output_pattern, args.ref, args.min, args.max, args.nmf, args.threads, args.exome, args.context)
-            shutil.move('./matgen/output', './output')
+            sigpro_func(args.filetype, args.output_pattern, args.ref, args.exome, args.context)
+            # args.min, args.max, args.nmf, args.threads, -- this is also lost
+            shutil.move('./' + args.output_pattern, './output')
         else:
             logger.error(f"The given temporary folder {args.input} was not found!")
             raise ValueError(f"The given temporary folder {args.input} was not found!")
