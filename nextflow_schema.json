@@ -72,21 +72,6 @@
                     "type": "string",
                     "default": "96",
                     "description": "Defines which exposure estimates should be inferred - SBS96, DINUC and/or ID"
-                },
-                "min": {
-                    "type": "integer",
-                    "default": 4,
-                    "description": "Minimal amount of signatures to extract"
-                },
-                "max": {
-                    "type": "integer",
-                    "default": 30,
-                    "description": "Maximal amount of signatures to extract"
-                },
-                "nmf": {
-                    "type": "integer",
-                    "default": 100,
-                    "description": "Number of NMF iterations before converging"
                 }
             },
             "fa_icon": "fas fa-border-none",

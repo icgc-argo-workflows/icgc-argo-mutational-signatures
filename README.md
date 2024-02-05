@@ -23,21 +23,42 @@
 
 ## Usage
 
+For more details and a quick start guide, please refer to the [usage documentation](https://nf-co.re/icgcargomutsig/usage) and the [parameter documentation](https://nf-co.re/icgcargomutsig/parameters).
+
+### Global options
+
+- `--input` (**required**): **Absolute** path to your input MAF or the folder containing the VCFs for analysis
+- `--output_pattern` (**required**): Output naming convention for the analysis
+- `--outdir` (**required**): Relative or absolute path to the desired output destination
+
+### SigProfiler tool options (SigProfiler Matrixgenerator and Assignment)
+
+- `--filetype` (**required**): Defines which input type is passed to the SigProfiler tools, currently supported options are `'MAF'` or `'VCF'`
+- `--ref` (**required**): Defines the reference genome from which the data was generated, currently supported options include `'GRCh37'` and `'GRCh38'`
+- `--exome`: This flag defines if the SigProfiler tools should run against the COSMIC exome/panel reference instead of the WGS reference, activate with `--exome true`. [default: ```false```]
+- `--context`: Defines which sequence context types should be assigned to the respective COSMIC catalogues for the SigProfiler Assignment module. Valid options include `"96", "288", "1536", "DINUC", and "ID"`, which can be given as comma-separated string. Running the pipeline with default parameters will perform only SBS96 signature assignment. [default: ```'96'```]
+
+### signature.tools.lib options
+
+- `--n_boots`: Defines how many NMF iterations should be performed by signature.tools.lib Fit before the model converges. [default: `100`]
+
 > **Note**
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how
 > to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline)
 > with `-profile test` before running the workflow on actual data.
-
-TODO: Documentation for all options and minimal case
-
-Hic sunt draconis
 
 > **Warning:**
 > Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those
 > provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_;
 > see [docs](https://nf-co.re/usage/configuration#custom-configuration-files).
 
-For more details and further functionality, please refer to the [usage documentation](https://nf-co.re/icgcargomutsig/usage) and the [parameter documentation](https://nf-co.re/icgcargomutsig/parameters).
+## Frequently Asked Questions and known "bugs":
+
+- The Error Thresholding Module breaks die to the error `Error: dims [product 31] do not match the length of object [96]`:
+  A border case for the mutational signature assignment pipeline is providing a single sample for analysis. As the error thresholding module expects a matrix as input for calculating error statistics, a single sample would will be parsed as a vector and thus break the analysis. Please provide more than a single sample to the pipeline to circumvent this error.
+
+- The Error Thresholding Module breaks due to a `lexical error` in the `read_json` step:
+  This error occurs due to a "lower bound limitation" of mutations per sample which are required for _signature.tools.lib_ to fully assign the input activities to all reference signatures without producing `ǸaN` values. We haven't tested the full spectrum for identification of the lower bound for our pipeline, but would recommend to only provide data with at least 50 mutations per sample.
 
 ## Pipeline output
 
