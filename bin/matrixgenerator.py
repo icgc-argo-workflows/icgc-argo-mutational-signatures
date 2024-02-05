@@ -125,11 +125,11 @@ def process(argv=None):
             matrices = matGen.SigProfilerMatrixGeneratorFunc(args.output_pattern, args.ref, './matgen', exome=args.exome, bed_file=None, chrom_based=False, plot=False, tsb_stat=False, seqInfo=False)
             '''Move output files and rename if required.'''
             for file in glob.glob("./matgen/output/SBS/*.SBS96*"):
-                shutil.move(file, './Trinucleotide_matrix_' + args.output_pattern + '_SBS96.txt')
+                shutil.move(file, './Trinucleotide_matrix_' + args.output_pattern + '_SBS96.txt') ### required
             for file in glob.glob("./matgen/output/DBS/*.DBS78*"):
-                shutil.move(file, './Trinucleotide_matrix_' + args.output_pattern + '_DBS78.txt')
+                shutil.move(file, './Trinucleotide_matrix_' + args.output_pattern + '_DBS78.txt') ### optional
             for file in glob.glob("./matgen/output/ID/*.ID83*"):
-                shutil.move(file, './Trinucleotide_matrix_' + args.output_pattern + '_ID83.txt')
+                shutil.move(file, './Trinucleotide_matrix_' + args.output_pattern + '_ID83.txt') ### optional
         else:
             logger.error(f"The given input MAF file {args.input} was not found!")
             raise ValueError(f"The given input MAF file {args.input} was not found!")
@@ -144,11 +144,11 @@ def process(argv=None):
             matrices = matGen.SigProfilerMatrixGeneratorFunc(args.output_pattern, args.ref, './matgen', exome=args.exome, bed_file=None, chrom_based=False, plot=False, tsb_stat=False, seqInfo=False)
             '''Move output files and rename if required.'''
             for file in glob.glob("./matgen/output/SBS/*.SBS96*"):
-                shutil.move(file, './Trinucleotide_matrix_' + args.output_pattern + '_SBS96.txt')
+                shutil.move(file, './Trinucleotide_matrix_' + args.output_pattern + '_SBS96.txt') ### required
             for file in glob.glob("./matgen/output/DBS/*.DBS78*"):
-                shutil.move(file, './Trinucleotide_matrix_' + args.output_pattern + '_DBS78.txt')
+                shutil.move(file, './Trinucleotide_matrix_' + args.output_pattern + '_DBS78.txt') ### optional
             for file in glob.glob("./matgen/output/ID/*.ID83*"):
-                shutil.move(file, './Trinucleotide_matrix_' + args.output_pattern + '_ID83.txt')
+                shutil.move(file, './Trinucleotide_matrix_' + args.output_pattern + '_ID83.txt') ### optional
         else:
             logger.error(f"The given temporary folder {args.input} was not found!")
             raise ValueError(f"The given temporary folder {args.input} was not found!")

@@ -14,8 +14,8 @@ process MATRIXGENERATOR {
 
     output:
     path "Trinucleotide_matrix_${params.output_pattern}_SBS96.txt",     emit: output_SBS
-    path "Trinucleotide_matrix_${params.output_pattern}_DBS78.txt",     emit: output_DBS
-    path "Trinucleotide_matrix_${params.output_pattern}_ID83.txt" ,     emit: output_ID
+    path "Trinucleotide_matrix_${params.output_pattern}_DBS78.txt",     emit: output_DBS, optional: true
+    path "Trinucleotide_matrix_${params.output_pattern}_ID83.txt" ,     emit: output_ID,  optional: true
     val("process_complete")                                       ,     emit: matgen_finished
     path "versions.yml"                                           ,     emit: versions
 

@@ -1,4 +1,4 @@
-process EXTRACTOR {
+process ASSIGNMENT {
     label 'process_high'
 
     conda "bioconda::sigmut=1.0"
@@ -28,7 +28,6 @@ process EXTRACTOR {
         --input $input \\
         --output_pattern $output_pattern \\
         $args \\
-        --threads $task.cpus    \\
         2> $workDir/sigprofiler.error.log \\
         1> $workDir/sigprofiler.log
 

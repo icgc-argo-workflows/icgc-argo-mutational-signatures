@@ -44,28 +44,10 @@ def parse_args(argv=None):
         default=""
     )
     parser.add_argument(
-        "--min",
-        type=int,
-        help="Define the minimal amount of signatures which should be assigned.",
-        default=4
-    )
-    parser.add_argument(
-        "--max",
-        type=int,
-        help="Define the maximal amount of signatures which should be assigned.",
-        default=30
-    )
-    parser.add_argument(
         "--ref",
         type=str,
         help="Reference genome from which the data was derived.",
         default="GRCh38"
-    )
-    parser.add_argument(
-        "--nmf",
-        type=int,
-        help="Amount of NMF replicates SigProfiler should perform before converging",
-        default=100
     )
     parser.add_argument(
         "--exome",
@@ -77,12 +59,6 @@ def parse_args(argv=None):
         type=str,
         help="Defines which context needs to be extracted, can be an SBS context, DINUC or ID or multiple ones separated by a comma",
         default="96"
-    )
-    parser.add_argument(
-        "--threads",
-        type=int,
-        help="Amount of threads which should be assigned to SigProfiler",
-        default=8
     )
     parser.add_argument(
         "--l",
@@ -151,8 +127,6 @@ Define the signature assignment routine
 def sigpro_func(filetype, output_pattern, ref, exome, context):
     sig.cosmic_fit(samples="./assignment", output=output_pattern, input_type=filetype, genome_build=ref, exome=exome, context_type=context)
 
-# minimum_signatures=min, maximum_signatures=max, nmf_replicates=nmf, cpu=threads,  -- this is all lost due to the update?
-
 ############################################################################################################
 
 def main(argv=None):
@@ -166,7 +140,8 @@ def main(argv=None):
             '''Install reference genome'''
             genInstall.install(args.ref, bash=True)
             '''Run the Matrix Generator Module to generate matrices for SBS96 from input data'''
-            sigpro_func(args.filetype, args.output_pattern, args.ref, args.min, args.max, args.nmf, args.threads, args.exome, args.context)
+            sigpro_func("vcf", args.output_pattern, args.ref, args.exome, args.context)
+            shutil.move('./' + args.output_pattern, './output')
         else:
             logger.error(f"The given input MAF file {args.input} was not found!")
             raise ValueError(f"The given input MAF file {args.input} was not found!")
@@ -178,8 +153,7 @@ def main(argv=None):
             '''Install reference genome'''
             genInstall.install(args.ref, bash=True)
             '''Run the Matrix Generator Module to generate matrices for SBS96 from input data'''
-            sigpro_func(args.filetype, args.output_pattern, args.ref, args.exome, args.context)
-            # args.min, args.max, args.nmf, args.threads, -- this is also lost
+            sigpro_func("vcf", args.output_pattern, args.ref, args.exome, args.context)
             shutil.move('./' + args.output_pattern, './output')
         else:
             logger.error(f"The given temporary folder {args.input} was not found!")

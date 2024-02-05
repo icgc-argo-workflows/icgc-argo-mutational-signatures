@@ -35,7 +35,7 @@ BOOTS <- opt$boots
 THREADS <- opt$threads
 
 ## Import matrix of counts
-mut_mat_ICGC <- read.table(INPUT_MAT, row.names = 1, header=TRUE)
+mut_mat_ICGC <- read.table(INPUT_MAT, row.names = 1, header=TRUE, check.names = FALSE)
 
 ## Function for signature attribution
 assignSignatures <- function(input_matrix, sig_matrix, boots_n, threads) {
