@@ -54,6 +54,7 @@ include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoft
 //
 
 include { MATRIXGENERATOR             } from '../modules/local/sigprofiler/matrixgenerator'
+include { ASSESSMENT                  } from '../modules/local/assessment/assessment'
 include { ASSIGNMENT                  } from '../modules/local/sigprofiler/assignment'
 include { SIGNATURETOOLSLIB           } from '../modules/local/signaturetoolslib/signaturetoolslib'
 include { ERRORTRESHOLDING            } from '../modules/local/errorthresholding/errorthresholding'
@@ -75,31 +76,60 @@ workflow ICGCARGOMUTSIG {
     // MODULE : matrixgenerator
     //
 
-    MATRIXGENERATOR (
-        params.input,
-        params.output_pattern,
-        params.filetype
-    )
-    ch_versions = ch_versions.mix(MATRIXGENERATOR.out.versions)
+    if ( params.filetype != 'matrix') {
+        MATRIXGENERATOR (
+            params.input,
+            params.output_pattern,
+            params.filetype
+        )
+        ch_versions = ch_versions.mix(MATRIXGENERATOR.out.versions)
+    }
+
+    //
+    // MODULE : assessment
+    //
+
+    if ( params.filetype == 'matrix') {
+        ASSESSMENT (
+            params.input
+        )
+        ch_versions = ch_versions.mix(ASSESSMENT.out.versions)
+    } else {
+        ASSESSMENT (
+            MATRIXGENERATOR.out.output_SBS
+        )
+        ch_versions = ch_versions.mix(ASSESSMENT.out.versions)
+    }
 
     //
     // MODULE : assignment
     //
 
-    ASSIGNMENT (
-        params.input,
-        params.output_pattern,
-        params.filetype,
-        MATRIXGENERATOR.out.matgen_finished.collect()
-    )
-    ch_versions = ch_versions.mix(ASSIGNMENT.out.versions)
+    if ( params.filetype == 'matrix') {
+        matgen_finished = "process_complete"
+        ASSIGNMENT (
+            ASSESSMENT.out.reordered_cosmic,
+            params.output_pattern,
+            params.filetype,
+            matgen_finished
+        )
+        ch_versions = ch_versions.mix(ASSIGNMENT.out.versions)
+    } else {
+        ASSIGNMENT (
+            params.input,
+            params.output_pattern,
+            params.filetype,
+            MATRIXGENERATOR.out.matgen_finished.collect()
+        )
+        ch_versions = ch_versions.mix(ASSIGNMENT.out.versions)
+    }
 
     //
     // MODULE : signaturetoolslib
     //
 
     SIGNATURETOOLSLIB (
-        MATRIXGENERATOR.out.output_SBS,
+        ASSESSMENT.out.reordered_sigtool,
         params.output_pattern
     )
     ch_versions = ch_versions.mix(SIGNATURETOOLSLIB.out.versions)
@@ -110,7 +140,7 @@ workflow ICGCARGOMUTSIG {
 
     ERRORTRESHOLDING (
         SIGNATURETOOLSLIB.out.json,
-        MATRIXGENERATOR.out.output_SBS,
+        ASSESSMENT.out.reordered_sigtool,
         params.output_pattern
     )
     ch_versions = ch_versions.mix(ERRORTRESHOLDING.out.versions)

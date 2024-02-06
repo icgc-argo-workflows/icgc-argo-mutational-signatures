@@ -114,7 +114,6 @@ def maf_input_routine(in_maf, ref_version):
             converted_maf = mafconverter(maf_raw, ref_version)
             return converted_maf
         else:
-            logger.error(f"The provided MAF file {maf_raw} does not follow GDC format requirements. Please recheck your input MAF.")
             raise ValueError(f"The provided MAF file {maf_raw} does not follow GDC format requirements. Please recheck your input MAF.")
 
 logger = logging.getLogger()
@@ -124,14 +123,13 @@ logger = logging.getLogger()
 Define the signature assignment routine
 '''
 
-def sigpro_func(filetype, output_pattern, ref, exome, context):
-    sig.cosmic_fit(samples="./assignment", output=output_pattern, input_type=filetype, genome_build=ref, exome=exome, context_type=context)
+def sigpro_func(sample, filetype, output_pattern, ref, exome, context):
+    sig.cosmic_fit(samples=sample, output=output_pattern, input_type=filetype, genome_build=ref, exome=exome, context_type=context)
 
 ############################################################################################################
 
 def main(argv=None):
     args = parse_args(argv)
-    logging.basicConfig(filename='sigprofiler.log', filemode='w', level=args.l, format="%(asctime)s : [%(levelname)s] %(message)s")
     if args.filetype in ["maf", "MAF"]:
         if os.path.isfile(args.input):
             maf_for_analysis = maf_input_routine(args.input, args.ref)
@@ -140,10 +138,9 @@ def main(argv=None):
             '''Install reference genome'''
             genInstall.install(args.ref, bash=True)
             '''Run the Matrix Generator Module to generate matrices for SBS96 from input data'''
-            sigpro_func("vcf", args.output_pattern, args.ref, args.exome, args.context)
+            sigpro_func("./assignment", "vcf", args.output_pattern, args.ref, args.exome, args.context)
             shutil.move('./' + args.output_pattern, './output')
         else:
-            logger.error(f"The given input MAF file {args.input} was not found!")
             raise ValueError(f"The given input MAF file {args.input} was not found!")
     elif args.filetype in ["vcf", "VCF"]:
         if os.path.isdir(args.input):
@@ -153,14 +150,22 @@ def main(argv=None):
             '''Install reference genome'''
             genInstall.install(args.ref, bash=True)
             '''Run the Matrix Generator Module to generate matrices for SBS96 from input data'''
-            sigpro_func("vcf", args.output_pattern, args.ref, args.exome, args.context)
+            sigpro_func("./assignment", "vcf", args.output_pattern, args.ref, args.exome, args.context)
             shutil.move('./' + args.output_pattern, './output')
         else:
             logger.error(f"The given temporary folder {args.input} was not found!")
             raise ValueError(f"The given temporary folder {args.input} was not found!")
+    elif args.filetype in ['matrix', 'Matrix', 'counts', 'Counts']:
+        if os.path.isfile(args.input):
+            os.mkdir('assignment')
+            mutcount_matrix = pd.read_csv(args.input, index_col=0, sep="\t")
+            '''Install reference genome'''
+            genInstall.install(args.ref, bash=True)
+            '''Run the Matrix Generator Module to generate matrices for SBS96 from input data'''
+            sigpro_func(mutcount_matrix, "matrix", args.output_pattern, args.ref, args.exome, args.context)
+            shutil.move('./' + args.output_pattern, './output')
     else:
-        logger.error(f"The provided information for the input file type is wrong. Please define either 'vcf' or 'maf'!")
-        raise ValueError(f"The provided information for the input file type is wrong. Please define either 'vcf' or 'maf'!")
+        raise ValueError(f"The provided information for the input file type is wrong. Please define either 'vcf', 'matrix' or 'maf'!")
 
 if __name__ == '__main__':
     sys.exit(main())

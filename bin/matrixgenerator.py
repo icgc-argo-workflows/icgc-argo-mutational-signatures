@@ -6,7 +6,6 @@ Load dependencies
 '''
 
 import os
-import sys
 import shutil
 import argparse
 import logging
