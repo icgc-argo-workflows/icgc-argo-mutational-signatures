@@ -69,10 +69,9 @@ For more details about the output files and reports, please refer to the
 
 ## Credits
 
-nf-core/icgcargomutsig was originally written by Lancelot Seillier.
-
 We thank the following people for their extensive assistance in the development of this pipeline:
 
+- Lancelot Seillier
 - Paula Stancl
 - Felix Beaudry
 - Sandesh Memane
