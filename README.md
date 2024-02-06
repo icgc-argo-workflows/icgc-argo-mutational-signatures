@@ -17,9 +17,10 @@
 ![workflow_diagram](./assets/workflow_diagramm.png)
 
 1. Generate SBS96, DBS78 and ID83 count matrices using ([`SigProfilerMatrixgenerator`](https://osf.io/s93d5/wiki/home/))
-2. Assignment of SBS signatures to the COSMIC mutational signature catalogue using ([`SigProfilerExtractor`](https://osf.io/t6j7u/wiki/home/)) and ([`signature.tools.lib`](https://github.com/Nik-Zainal-Group/signature.tools.lib))
-3. Calculation of error thresholds using Kullback-Leibler divergence, root-square mean error, sum of absolute distances and Hellinger Distance.
-4. Generation of a ([`MultiQC`](https://multiqc.info/)) report containing run information and log data.
+2. Assessment of row orders to ensure full compatibility between the reference catalogues of each assignment tool and the input data.
+3. Assignment of SBS signatures to the COSMIC mutational signature catalogue using ([`SigProfilerExtractor`](https://osf.io/t6j7u/wiki/home/)) and ([`signature.tools.lib`](https://github.com/Nik-Zainal-Group/signature.tools.lib))
+4. Calculation of error thresholds using Kullback-Leibler divergence, root-square mean error, sum of absolute distances and Hellinger Distance.
+5. Generation of a ([`MultiQC`](https://multiqc.info/)) report containing run information and log data.
 
 ## Usage
 
@@ -27,13 +28,13 @@ For more details and a quick start guide, please refer to the [usage documentati
 
 ### Global options
 
-- `--input` (**required**): **Absolute** path to your input MAF or the folder containing the VCFs for analysis
+- `--input` (**required**): **Absolute** path to your input MAF, matrix or the folder containing the VCFs for analysis
 - `--output_pattern` (**required**): Output naming convention for the analysis
 - `--outdir` (**required**): Relative or absolute path to the desired output destination
 
 ### SigProfiler tool options (SigProfiler Matrixgenerator and Assignment)
 
-- `--filetype` (**required**): Defines which input type is passed to the SigProfiler tools, currently supported options are `'MAF'` or `'VCF'`
+- `--filetype` (**required**): Defines which input type is passed to the SigProfiler tools, currently supported options are `'MAF'`, `'Matrix'` or `'VCF'`
 - `--ref` (**required**): Defines the reference genome from which the data was generated, currently supported options include `'GRCh37'` and `'GRCh38'`
 - `--exome`: This flag defines if the SigProfiler tools should run against the COSMIC exome/panel reference instead of the WGS reference, activate with `--exome true`. [default: ```false```]
 - `--context`: Defines which sequence context types should be assigned to the respective COSMIC catalogues for the SigProfiler Assignment module. Valid options include `"96", "288", "1536", "DINUC", and "ID"`, which can be given as comma-separated string. Running the pipeline with default parameters will perform only SBS96 signature assignment. [default: ```'96'```]
