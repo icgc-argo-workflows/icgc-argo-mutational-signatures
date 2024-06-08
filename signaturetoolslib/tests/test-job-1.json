@@ -1,7 +1,0 @@
-{
-    "input_file": "input/Synthetic.eso.mutation.counts-10-samples.tsv",
-    "expected_output": "expected/test_assignments.json",
-    "output_dir": "outdir_dir",
-    "cpus": 2,
-    "mem": 6
-}
