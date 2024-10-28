@@ -67,6 +67,7 @@ workflow NFCORE_ICGCARGOMUTSIG {
 // WORKFLOW: Execute a single named workflow for the pipeline
 // See: https://github.com/nf-core/rnaseq/issues/619
 //
+
 workflow {
     NFCORE_ICGCARGOMUTSIG ()
 }

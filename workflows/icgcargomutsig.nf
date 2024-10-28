@@ -28,22 +28,12 @@ ch_multiqc_custom_methods_description = params.multiqc_methods_description ? fil
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    IMPORT LOCAL MODULES/SUBWORKFLOWS
+    IMPORT MODULES / SUBWORKFLOWS / FUNCTIONS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
 //
-// SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
-//
-
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    IMPORT NF-CORE MODULES/SUBWORKFLOWS
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-//
-// MODULE: Installed directly from nf-core/modules
+// MODULE: Installed directly from nf-core
 //
 
 include { MULTIQC                     } from '../modules/nf-core/multiqc/main'
@@ -58,6 +48,13 @@ include { ASSESSMENT                  } from '../modules/local/assessment/assess
 include { ASSIGNMENT                  } from '../modules/local/sigprofiler/assignment'
 include { SIGNATURETOOLSLIB           } from '../modules/local/signaturetoolslib/signaturetoolslib'
 include { ERRORTRESHOLDING            } from '../modules/local/errorthresholding/errorthresholding'
+
+///
+/// PLUGINS
+///
+
+include { paramsSummaryMap       } from 'plugin/nf-schema'
+
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
