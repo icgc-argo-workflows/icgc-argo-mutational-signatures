@@ -6,7 +6,6 @@
 
 ## Introduction
 
-<<<<<<< HEAD
 The **icgcargomutsig** pipeline will be primarily used using the command line interface (CLI) and, contrary to many nf-core pipelines, **does not use a samplesheet**. Please ensure that the required software packages for [Nextflow](https://www.nextflow.io/docs/latest/getstarted.html) and your desired containerization software are installed in your environment. Currently, [conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html), [Docker](https://docs.docker.com/engine/install/) and [Singularity](https://docs.sylabs.io/guides/3.5/user-guide/quick_start.html) are supported, see the subchapter [profiles](#profile).
 
 ## Running the pipeline

@@ -22,7 +22,6 @@ YouTube](http://img.shields.io/badge/youtube-nf--core-FF0000?labelColor=000000&l
 
 ## Introduction
 
-<<<<<<< HEAD
 **nf-core/icgcargomutsig** is a bioinformatics pipeline that can be used to convert GDC MAF files or a collection of VCF files into mutational count matrices and performs both signature assignment using SigProfiler and signature.tools.lib and calculates error statistics for the assignment performance.
 
 ![workflow_diagram](./assets/workflow_diagramm.png)
