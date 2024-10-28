@@ -4,7 +4,7 @@
   |\\ | |__  __ /  ` /  \\ |__) |__         }  {
   | \\| |       \\__, \\__/ |  \\ |___     \\`-._,-`-,
                                         `._,._,'
-  nf-core/icgcargomutsig v${version}
+  nf-core/icgcargomutsig ${version}
 ----------------------------------------------------
 Run Name: $runName
 

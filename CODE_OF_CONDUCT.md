@@ -14,7 +14,6 @@ In the interest of fostering an open, collaborative, and welcoming environment, 
 - Level of experience
 - Nationality and national origins
 - Native language
-- Physical and neurological ability
 - Neurodiversity
 - Race or ethnicity
 - Religion
